@@ -4,21 +4,17 @@ using Backend.Models;
 
 namespace Backend
 {
-    public class ExerciseDbApi
+    public class ExerciseDbApi(HttpClient httpClient)
     {
+        private readonly HttpClient _httpClient = httpClient;
+        private const string _baseUrl = "https://exercisedb-api.vercel.app";
         private readonly List<string> _muscles =
             [
             "abdominals","abductors","adductors","biceps","calves",
             "chest","forearms","glutes","hamstrings","lats",
-            "lower_back","middle_back","neck","quadriceps","traps","triceps"  
+            "lower_back","middle_back","neck","quadriceps","traps","triceps"
             ];
 
-        private readonly HttpClient _httpClient;
-        private const string _baseUrl = "https://exercisedb-api.vercel.app";
-        public ExerciseDbApi(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
 
         public async Task<List<Exercise>> GetExercisesAsync(string muscle)
         {
