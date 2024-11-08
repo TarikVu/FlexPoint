@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Backend.Models;
 
 namespace Backend
 {
@@ -17,10 +18,9 @@ namespace Backend
 
         public async Task<List<Exercise>> GetExercisesAsync()
         {
-            var response = await _httpClient.GetAsync($"{BaseUrl}/api/exercises"); // Assuming this endpoint provides exercises
+            var response = await _httpClient.GetAsync($"{BaseUrl}/api/exercises"); 
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
-
 
             return JsonSerializer.Deserialize<List<Exercise>>(content) ?? [];
         }

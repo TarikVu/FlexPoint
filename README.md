@@ -25,6 +25,21 @@ A desktop application built with .NET 7 and WPF for helping users select stretch
 ### References
 - [ExerciseDB API](https://exercisedb-api.vercel.app/docs)
 
+
+### <a name="testing"></a> Testing
+
+## <a name="unit-testing"></a> Unit Testing
+To isolate getting a json from the api, we first utilize Moq to simulate an api response for unit testing.
+This allows us to simulate the different errors and avoid relying on any usage restrictions.
+
+References:
+- This [Example blog](https://canro91.github.io/2022/12/01/TestingHttpClient/) shows a good example
+of using moq for a simulated api testing as well as a way to streamline setting up the fake client.
+- [Official Repo](https://github.com/devlooped/moq?tab=readme-ov-file#readme)
+
+## <a name="integration-testing"></a> Integration Testing
+
+
 ### Section for developer notes:
 
 11/7:
