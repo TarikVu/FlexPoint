@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Backend.Models
 {
-    // Used for Deserializing the Response from ExerciseDbApi
+    // Used for Deserializing the Response from ExerciseDb's Api
     public class ApiResponse
     {
         [JsonPropertyName("success")]
@@ -31,7 +31,7 @@ namespace Backend.Models
         public int CurrentPage { get; set; }
 
         [JsonPropertyName("exercises")]
-        public List<Exercise> Exercises { get; set; } = new List<Exercise>();
+        public List<Exercise> Exercises { get; set; } = [];
     }
 
     public class Exercise
@@ -46,18 +46,18 @@ namespace Backend.Models
         public string GifUrl { get; set; } = string.Empty;
 
         [JsonPropertyName("instructions")]
-        public List<string> Instructions { get; set; } = new List<string>();
+        public List<string> Instructions { get; set; } = [];
 
         [JsonPropertyName("targetMuscles")]
-        public List<string> TargetMuscles { get; set; } = new List<string>();
+        public List<string> TargetMuscles { get; set; } = [];
 
         [JsonPropertyName("bodyParts")]
-        public List<string> BodyParts { get; set; } = new List<string>();
+        public List<string> BodyParts { get; set; } = [];
 
         [JsonPropertyName("equipments")]
-        public List<string> Equipments { get; set; } = new List<string>();
+        public List<string> Equipments { get; set; } = [];
 
         [JsonPropertyName("secondaryMuscles")]
-        public List<string> SecondaryMuscles { get; set; } = new List<string>();
+        public List<string> SecondaryMuscles { get; set; } = [];
     }
 }
