@@ -19,6 +19,7 @@ A desktop application built with .NET 7 and WPF for helping users select stretch
   - MVVM Pattern for app structure
 - **Testing**:
   - xUnit for unit testing
+  - moq (ver Moq 4.20.72 )
   - TDD (Test-Driven Development)
 
 ### References
@@ -29,10 +30,3 @@ A desktop application built with .NET 7 and WPF for helping users select stretch
 11/7:
 project setup and initial pull
  
-Added the following packages to Testing directory for api testing
-``bash
-dotnet add package Moq
-dotnet add package xUnit
-dotnet add package Microsoft.NET.Test.Sdk
-dotnet add package Newtonsoft.Json
-```
