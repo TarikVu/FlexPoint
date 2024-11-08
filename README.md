@@ -24,7 +24,7 @@ A desktop application built with .NET 7 and WPF for helping users select stretch
 
 ## References
 - [ExerciseDB API](https://exercisedb-api.vercel.app/docs)
-
+    -[API Ninja's API parameters](https://www.api-ninjas.com/api/exercises)
 
 ## <a name="testing"></a> Testing
 

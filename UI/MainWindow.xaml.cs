@@ -1,24 +1,37 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using Backend.Controllers;
+using Backend.Models;
+
 
 namespace UI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly ExercisesController _controller;
+
         public MainWindow()
         {
             InitializeComponent();
+            _controller = new ExercisesController();
         }
+
+        private async void BicepsButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                List<Exercise> exercises = await _controller.GetExercises("biceps");
+                ExercisesList.Items.Clear();
+
+                foreach (var exercise in exercises)
+                {
+                    ExercisesList.Items.Add($"{exercise.Name}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching exercises: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
     }
 }
