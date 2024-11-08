@@ -45,3 +45,7 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 11/7:
 project setup and initial pull
  
+11/8:
+- Able to pull from the Open api
+- Added simple UI to display the parsed data and query
+- Added unit tests for api handler

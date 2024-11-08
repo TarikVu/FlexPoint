@@ -6,7 +6,7 @@ namespace Backend
 {
     public class ExerciseDbApi
     {
-        private readonly List<string> muscles =
+        private readonly List<string> _muscles =
             [
             "abdominals","abductors","adductors","biceps","calves",
             "chest","forearms","glutes","hamstrings","lats",
@@ -14,7 +14,7 @@ namespace Backend
             ];
 
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://exercisedb-api.vercel.app";
+        private const string _baseUrl = "https://exercisedb-api.vercel.app";
         public ExerciseDbApi(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -23,12 +23,12 @@ namespace Backend
         public async Task<List<Exercise>> GetExercisesAsync(string muscle)
         {
 
-            if (!muscles.Contains(muscle))
+            if (!_muscles.Contains(muscle))
             {
                 throw new Exception("Invalid Query Parameter");
             }
 
-            var response = await _httpClient.GetAsync($"{BaseUrl}/api/v1/muscles/{muscle}/exercises");
+            var response = await _httpClient.GetAsync($"{_baseUrl}/api/v1/muscles/{muscle}/exercises");
             response.EnsureSuccessStatusCode();
 
             // Parse the response
