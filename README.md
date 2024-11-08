@@ -1,4 +1,4 @@
-# Felxare
+# FlexPoint
 A desktop application built with .NET 7 and WPF for helping users select stretches based on muscle pain and group. It integrates with external APIs to fetch relevant stretch recommendations and images, providing a personalized user experience for pain relief.
 
 ## Features
