@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace Backend.Controllers
 {
-
-    // API controller to fetch exercises from ExerciseDB
     [ApiController]
     [Route("api/[controller]")]
     public class ExercisesController : ControllerBase
@@ -22,7 +20,7 @@ namespace Backend.Controllers
         [HttpGet("GetExercises")]
         public async Task<List<Exercise>> GetExercises(String muscle)
         {
-            return await _exerciseDbApi.GetAllExercisesAsync(muscle);
+            return await _exerciseDbApi.GetExercisesAsync(muscle);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Backend.Models
 {
+    // Used for Deserializing the Response from ExerciseDbApi
     public class ApiResponse
     {
         [JsonPropertyName("success")]
