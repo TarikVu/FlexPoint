@@ -10,21 +10,32 @@ namespace Backend
         private const string _baseUrl = "https://exercisedb-api.vercel.app";
         private readonly List<string> _muscles =
             [
-            "abdominals","abductors","adductors","biceps","calves",
-            "chest","forearms","glutes","hamstrings","lats",
-            "lower_back","middle_back","neck","quadriceps","traps","triceps"
+            "abs", "abductors", "adductors", "biceps","brachialis",
+            "calves","delts", "forearms", "glutes", 
+            "hamstrings", "lats", "pectorals",
+            "quads",  "traps", "triceps",  
             ];
 
 
-        public async Task<List<Exercise>> GetExercisesAsync(string muscle)
+        /// <summary>
+        /// The Primary Method used to communicate and query Exercises from The API.
+        /// It also handles Json Deserialization and reconstructs an Exercise to be displayed.
+        /// This method is made virtual in order to be intercepted for mocking with unit tests.
+        /// </summary>
+        /// <param name="muscle"></param>
+        /// <returns>List of Exercises.</returns>
+        /// <exception cref="Exception"></exception>
+        /// <exception cref="JsonException">API did not return expected fields</exception>
+        public virtual async Task<List<Exercise>> GetExercisesAsync(string muscle)
         {
 
             if (!_muscles.Contains(muscle))
             {
-                throw new Exception("Invalid Query Parameter");
+                throw new ArgumentException("Invalid Query Parameter");
             }
 
-            var response = await _httpClient.GetAsync($"{_baseUrl}/api/v1/muscles/{muscle}/exercises");
+            string encodedMuscle = Uri.EscapeDataString(muscle);
+            var response = await _httpClient.GetAsync($"{_baseUrl}/api/v1/muscles/{encodedMuscle}/exercises");
             response.EnsureSuccessStatusCode();
 
             // Parse the response
@@ -42,4 +53,3 @@ namespace Backend
         }
     }
 }
-

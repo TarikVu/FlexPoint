@@ -36,7 +36,9 @@ References:
 - This [Example blog](https://canro91.github.io/2022/12/01/TestingHttpClient/) shows a good example
 of using moq for a simulated api testing as well as a way to streamline setting up the fake client.
 - [Official Repo](https://github.com/devlooped/moq?tab=readme-ov-file#readme)
-
+- [MVVM & Data Binding](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
+    - [Data Binding](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/?view=netdesktop-8.0)  
+    - [Relay Command](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/relaycommand)
 ### <a name="integration-testing"></a> Integration Testing
 
 

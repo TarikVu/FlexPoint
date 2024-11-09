@@ -55,7 +55,7 @@ namespace Backend.Tests
         }
 
         [Fact]
-        public async Task GetExercise_EmptyList()
+        public async Task Error_GetExer_EmptyList()
         {
             var emptyExercises = JsonSerializer.Serialize(new ApiResponse
             {
@@ -77,7 +77,7 @@ namespace Backend.Tests
         }
 
         [Fact]
-        public async Task GetExercises_NullFields()
+        public async Task Error_GetExer_NullFields()
         {
             // Arrange
             var nullMock = JsonSerializer.Serialize(new ApiResponse
@@ -129,17 +129,17 @@ namespace Backend.Tests
         }
 
         [Fact]
-        public async Task GetExercises_InvalidParameter()
+        public async Task Error_GetExer_BadArg()
         {
             var mockHandler = CreateMock(HttpStatusCode.OK, basicResponse);
             var httpClient = new HttpClient(mockHandler.Object);
             var api = new ExerciseDbApi(httpClient);
 
-            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("JohnnyCash"));
+            await Assert.ThrowsAsync<ArgumentException>(() => api.GetExercisesAsync("JohnnyCash"));
         }
 
         [Fact]
-        public async Task GetExercises_InvalidHttpStatus()
+        public async Task Error_GetExer_InvalidHttpStatus()
         {
             var mockHandler = CreateMock(HttpStatusCode.NotFound, ""); // 404 Not Found
             var httpClient = new HttpClient(mockHandler.Object);
@@ -149,7 +149,7 @@ namespace Backend.Tests
         }
 
         [Fact]
-        public async Task GetExercises_InvalidJsonStructure()
+        public async Task Error_GetExer_InvalidJsonReturn()
         {
             var mockResponseContent = "{\"crazySteve\":true}"; // Invalid JSON structure
             var mockHandler = CreateMock(HttpStatusCode.OK, mockResponseContent);
@@ -160,7 +160,7 @@ namespace Backend.Tests
         }
 
         [Fact]
-        public async Task Exception500_GetExercise()
+        public async Task Error_GetExercise_Server500()
         {
             var mockHandler = CreateMock(HttpStatusCode.InternalServerError, "");
             var httpClient = new HttpClient(mockHandler.Object);
