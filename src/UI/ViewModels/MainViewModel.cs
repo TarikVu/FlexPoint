@@ -12,6 +12,8 @@ namespace UI.ViewModels
     {
         private readonly ExerciseDbApi _exerciseDbApi;
         private ObservableCollection<Exercise> _exercises;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public ICommand FetchExercisesCommand { get; }
 
         public ObservableCollection<Exercise> Exercises
@@ -24,15 +26,33 @@ namespace UI.ViewModels
             }
         }
 
-        public MainViewModel()
+        /// <summary>
+        /// Main Constructor to set up our ExerciseDbApi, exercises, and RelayCommand
+        /// </summary>
+        /// <param name="exerciseDbApi">
+        /// Optional Parameter Used for Tests when mocking the api, used to reduce
+        /// Calling the acutal api in case of rate limitations</param>
+        public MainViewModel(ExerciseDbApi? exerciseDbApi = null)
         {
-            _exerciseDbApi = new ExerciseDbApi(new HttpClient());
-            Exercises = new ObservableCollection<Exercise>();
-            FetchExercisesCommand = new RelayCommand(async () => await FetchExercisesAsync("biceps"));
+            _exerciseDbApi = exerciseDbApi ?? new ExerciseDbApi(new HttpClient());
+            _exercises = new ObservableCollection<Exercise>();
+            FetchExercisesCommand = new RelayCommand(async (muscle) => await FetchExercisesAsync(muscle as string));
         }
 
-        private async Task FetchExercisesAsync(string muscle)
+        // Parameterless constructor for XAML instantiation
+        public MainViewModel() : this(new ExerciseDbApi(new HttpClient()))
         {
+        }
+
+        /// <summary>
+        /// Calls API to fetch Exercises.
+        /// </summary>
+        /// <param name="muscle"></param>
+        /// <returns></returns>
+        private async Task FetchExercisesAsync(string? muscle)
+        {
+            if (string.IsNullOrEmpty(muscle))
+                return;
             try
             {
                 var exerciseList = await _exerciseDbApi.GetExercisesAsync(muscle);
@@ -48,9 +68,7 @@ namespace UI.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

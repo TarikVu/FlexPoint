@@ -3,14 +3,39 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:UI.ViewModels"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="UniformButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="35"/>
+        </Style>
+    </Window.Resources>
     <Window.DataContext>
         <local:MainViewModel />
     </Window.DataContext>
     <Grid>
-        <Button Content="Fetch Exercises" Command="{Binding FetchExercisesCommand}" 
-                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <ScrollViewer HorizontalAlignment="Left" Margin="10,10,0,10" Width="180">
+            <StackPanel Orientation="Vertical">
+                <Button Content="Abs" Command="{Binding FetchExercisesCommand}" CommandParameter="abs" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Abductors" Command="{Binding FetchExercisesCommand}" CommandParameter="abductors" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Adductors" Command="{Binding FetchExercisesCommand}" CommandParameter="adductors" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Biceps" Command="{Binding FetchExercisesCommand}" CommandParameter="biceps" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Calves" Command="{Binding FetchExercisesCommand}" CommandParameter="calves" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Delts" Command="{Binding FetchExercisesCommand}" CommandParameter="delts" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Forearms" Command="{Binding FetchExercisesCommand}" CommandParameter="forearms" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Glutes" Command="{Binding FetchExercisesCommand}" CommandParameter="glutes" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Hamstrings" Command="{Binding FetchExercisesCommand}" CommandParameter="hamstrings" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Lats" Command="{Binding FetchExercisesCommand}" CommandParameter="lats" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Pectorals" Command="{Binding FetchExercisesCommand}" CommandParameter="pectorals" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Quads" Command="{Binding FetchExercisesCommand}" CommandParameter="quads" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Traps" Command="{Binding FetchExercisesCommand}" CommandParameter="traps" Style="{StaticResource UniformButtonStyle}"/>
+                <Button Content="Triceps" Command="{Binding FetchExercisesCommand}" CommandParameter="triceps" Style="{StaticResource UniformButtonStyle}"/>
+            </StackPanel>
+        </ScrollViewer>
 
         <ListBox ItemsSource="{Binding Exercises}" DisplayMemberPath="Name"
-                 Margin="10,50,10,10"/>
+                 Margin="0,20,10,9" HorizontalAlignment="Right" Width="224"/>
     </Grid>
 </Window>
