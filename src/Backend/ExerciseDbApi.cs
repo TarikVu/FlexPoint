@@ -28,28 +28,45 @@ namespace Backend
         /// <exception cref="JsonException">API did not return expected fields</exception>
         public virtual async Task<List<Exercise>> GetExercisesAsync(string muscle)
         {
-
             if (!_muscles.Contains(muscle))
             {
                 throw new ArgumentException("Invalid Query Parameter");
             }
 
             string encodedMuscle = Uri.EscapeDataString(muscle);
-            var response = await _httpClient.GetAsync($"{_baseUrl}/api/v1/muscles/{encodedMuscle}/exercises");
-            response.EnsureSuccessStatusCode();
+            string currentUrl = $"{_baseUrl}/api/v1/muscles/{encodedMuscle}/exercises";
+            var allExercises = new List<Exercise>();
 
-            // Parse the response
-            var content = await response.Content.ReadAsStringAsync();
-            var apiResponse = JsonSerializer.Deserialize<ApiResponse>(content);
-
-            // Check For correct Json Structure after parsing
-            if (apiResponse?.Data?.Exercises == null)
+            while (!string.IsNullOrEmpty(currentUrl))
             {
-                throw new JsonException("The JSON structure is missing the expected 'data' or 'exercises' fields.");
+                var response = await _httpClient.GetAsync(currentUrl);
+                response.EnsureSuccessStatusCode();
+
+                var content = await response.Content.ReadAsStringAsync();
+                var apiResponse = JsonSerializer.Deserialize<ApiResponse>(content);
+
+                // Validate JSON structure
+                if (apiResponse?.Data?.Exercises == null)
+                {
+                    throw new JsonException("The JSON structure is missing the expected 'data' or 'exercises' fields.");
+                }
+
+                // Add the exercises from this page to the list
+                allExercises.AddRange(apiResponse.Data.Exercises);
+
+                // Update currentUrl to the next page
+                if (apiResponse.Data.NextPage != null)
+                {
+                    currentUrl = apiResponse.Data.NextPage;
+                }
+                else
+                {
+                    currentUrl = "";
+                }
             }
 
-            // Return the exercises list or an empty list if it's null
-            return apiResponse?.Data?.Exercises ?? [];
+            return allExercises;
         }
+
     }
 }
