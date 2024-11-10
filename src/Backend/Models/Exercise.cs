@@ -46,7 +46,7 @@ namespace Backend.Models
         public string GifUrl { get; set; } = string.Empty;
 
         [JsonPropertyName("instructions")]
-        public List<string> Instructions { get; set; } = [];
+        public List<string>? Instructions { get; set; }
 
         [JsonPropertyName("targetMuscles")]
         public List<string> TargetMuscles { get; set; } = [];

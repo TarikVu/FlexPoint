@@ -31,9 +31,9 @@ namespace Backend
         /// It also handles Json Deserialization and reconstructs an Exercise to be displayed.
         /// This method is made virtual in order to be intercepted for mocking with unit tests.
         /// </summary>
-        /// <param name="muscle"></param>
+        /// <param name="muscle">Muscle to Query</param>
         /// <returns>List of Exercises.</returns>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="Exception">Invalid Query</exception>
         /// <exception cref="JsonException">API did not return expected fields</exception>
         public virtual async Task<List<Exercise>> GetExercisesAsync(string muscle)
         {
@@ -45,7 +45,7 @@ namespace Backend
             string encodedMuscle = Uri.EscapeDataString(muscle);
             string currentUrl = $"{_baseUrl}/api/v1/muscles/{encodedMuscle}/exercises";
             var allExercises = new List<Exercise>();
-
+            
             while (!string.IsNullOrEmpty(currentUrl))
             {
                 var response = await _httpClient.GetAsync(currentUrl);

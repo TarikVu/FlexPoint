@@ -24,6 +24,8 @@ namespace UI.ViewModels
         public ICommand MouseLeaveCommand { get; }
         public ICommand FetchExercisesCommand { get; }
 
+        private Exercise? _selectedExercise;
+
         public ObservableCollection<Exercise> Exercises
         {
             get => _exercises;
@@ -73,6 +75,41 @@ namespace UI.ViewModels
             }
         }
 
+
+        public Exercise? SelectedExercise
+        {
+            get => _selectedExercise;
+            set
+            {
+                _selectedExercise = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedWorkoutSteps)); 
+            }
+        }
+
+        public string SelectedWorkoutSteps
+        {
+            get
+            {
+                if (SelectedExercise == null || 
+                    SelectedExercise.Instructions == null || 
+                    SelectedExercise.Instructions.Count == 0)
+                    return "No steps available";
+
+                // Header
+                string workoutHeader = $"{SelectedExercise.Name.ToUpper()}\n" +
+                    $"{new string('-', 40)}\n";
+
+                // Body
+                string steps = string.Join("\n\n", SelectedExercise.Instructions.Select((step, index) => $"{step}"));
+
+                return $"{workoutHeader}\n{steps}";
+            }
+        }
+
+
+
+
         /// <summary>
         /// </summary>
         /// <param name="exerciseDbApi">To test with a Mock API</param>
@@ -98,7 +135,7 @@ namespace UI.ViewModels
         public MainViewModel() : this(new ExerciseDbApi(new HttpClient())) { }
 
         private void OnMouseEnter(string muscleName)
-        { 
+        {
             HoveredImageSource = $"pack://application:,,,/Assets/{muscleName}.png";
         }
 
@@ -146,7 +183,7 @@ namespace UI.ViewModels
         /// Updates the view upon a Property Change.
         /// </summary>
         /// <param name="propertyName"></param>
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null )
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

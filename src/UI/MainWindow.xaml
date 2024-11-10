@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:UI.ViewModels"
-        Title="FlexPoint" Height="750" Width="1000" ResizeMode="CanResize">
+        Title="FlexPoint (Demo)" Height="700" Width="1000" ResizeMode="CanResize">
     <Window.Resources>
         <Style x:Key="MuscleButton" TargetType="Button">
             <Setter Property="Width" Value="100"/>
@@ -190,11 +190,18 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <ProgressBar Grid.Row="0" Value="{Binding CurrentProgress, Mode=OneWay}" 
-                     Visibility="{Binding ProgressVisibility}"
-                     Height="20" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
-                <ListBox Grid.Row="1" ItemsSource="{Binding Exercises}" DisplayMemberPath="Name"
-                 VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
+                <ProgressBar 
+                    Value="{Binding CurrentProgress, Mode=OneWay}" 
+                    Visibility="{Binding ProgressVisibility}" 
+                    Grid.Row="0" Height="20" HorizontalAlignment="Stretch" Margin="0,0,0,10"/>
+
+                <ListBox 
+                     DisplayMemberPath="Name"
+                     ItemsSource="{Binding Exercises}"
+                     SelectedItem="{Binding SelectedExercise, Mode=TwoWay}"
+                     Grid.Row="1" VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
             </Grid>
         </Grid>
 
@@ -210,7 +217,12 @@
             </Border>
 
             <Border Grid.Row="1" Margin="10" BorderBrush="Black" BorderThickness="1">
-                <TextBlock Text="Selected workout steps" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <ScrollViewer Grid.Row="1" Margin="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <TextBlock Text="{Binding SelectedWorkoutSteps}" 
+               TextWrapping="Wrap" 
+               VerticalAlignment="Top" />
+                </ScrollViewer>
+
             </Border>
         </Grid>
     </Grid>
