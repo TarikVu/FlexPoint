@@ -13,16 +13,15 @@ namespace UI.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
         private readonly ExerciseDbApi _exerciseDbApi;
         private ObservableCollection<Exercise> _exercises;
         private int _currentProgress;
         private Visibility _progressVisibility = Visibility.Collapsed;
+        private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
 
         public ICommand MouseEnterCommand { get; }
         public ICommand MouseLeaveCommand { get; }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public ICommand FetchExercisesCommand { get; }
 
         public ObservableCollection<Exercise> Exercises
@@ -61,8 +60,6 @@ namespace UI.ViewModels
             }
         }
 
-        private string _hoveredImageSource = "pack://application:,,,/Assets/base.png"; // Default image
-
         public string HoveredImageSource
         {
             get => _hoveredImageSource;
@@ -76,27 +73,32 @@ namespace UI.ViewModels
             }
         }
 
-
-        public MainViewModel(ExerciseDbApi? exerciseDbApi = null)
+        /// <summary>
+        /// </summary>
+        /// <param name="exerciseDbApi">To test with a Mock API</param>
+        public MainViewModel(ExerciseDbApi exerciseDbApi)
         {
             _exerciseDbApi = exerciseDbApi ?? new ExerciseDbApi(new HttpClient());
-            _exercises = new ObservableCollection<Exercise>();
+            _exercises = [];
 
+            // Bind non-async Commands
             MouseEnterCommand = new RelayCommand<string>(OnMouseEnter);
-            MouseLeaveCommand = new RelayCommandWithoutParams(OnMouseLeave);
+            MouseLeaveCommand = new RelayCommand<object>(_ => OnMouseLeave());
 
-            // Initialize FetchExercisesCommand with async support
-            FetchExercisesCommand = new RelayCommand(
+            // Bind async Commands
+            FetchExercisesCommand = new RelayCommand<object>(
                 async (muscle) => await FetchExercisesAsync(muscle as string),
                 () => ProgressVisibility == Visibility.Collapsed
             );
         }
 
-
+        /// <summary>
+        /// Main Constructor Called by Xaml.cs
+        /// </summary>
         public MainViewModel() : this(new ExerciseDbApi(new HttpClient())) { }
 
         private void OnMouseEnter(string muscleName)
-        {
+        { 
             HoveredImageSource = $"pack://application:,,,/Assets/{muscleName}.png";
         }
 
@@ -105,16 +107,13 @@ namespace UI.ViewModels
             HoveredImageSource = "pack://application:,,,/Assets/base.png";
         }
 
-        /// <summary>
-        /// Asynchronously fetch exercises with progress reporting.
-        /// </summary>
         private async Task FetchExercisesAsync(string? muscle)
         {
             if (string.IsNullOrEmpty(muscle)) return;
 
+            // Enable the Progress bar
             ProgressVisibility = Visibility.Visible;
             CurrentProgress = 0;
-
             var progress = new Progress<int>(value => CurrentProgress = value);
 
             try
@@ -123,7 +122,6 @@ namespace UI.ViewModels
 
                 Exercises.Clear();
                 int count = exerciseList.Count;
-
                 for (int i = 0; i < count; i++)
                 {
                     // Update progress
@@ -144,7 +142,11 @@ namespace UI.ViewModels
             }
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        /// <summary>
+        /// Updates the view upon a Property Change.
+        /// </summary>
+        /// <param name="propertyName"></param>
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null )
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

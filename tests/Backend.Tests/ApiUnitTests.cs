@@ -40,6 +40,7 @@ namespace Backend.Tests
             return mockHttpMessageHandler;
         }
 
+
         [Fact]
         public async Task GetSimpleExercise()
         {

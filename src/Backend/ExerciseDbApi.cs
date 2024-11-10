@@ -51,7 +51,6 @@ namespace Backend
                     throw new JsonException("The JSON structure is missing the expected 'data' or 'exercises' fields.");
                 }
 
-                // Add the exercises from this page to the list
                 allExercises.AddRange(apiResponse.Data.Exercises);
 
                 // Update currentUrl to the next page
