@@ -15,15 +15,12 @@
         <local:MainViewModel />
     </Window.DataContext>
 
+    <!-- Main Grid, 3 Cols -->
     <Grid Margin="10">
-        <!-- Define the layout structure -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <!-- Column for Image -->
             <ColumnDefinition Width="2*"/>
-            <!-- Column for Buttons and ListBox -->
             <ColumnDefinition Width="2*"/>
-            <!-- Column for Controls and Workout Steps -->
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -33,7 +30,7 @@
         <Image Grid.Column="0" Source="{Binding HoveredImageSource}"
                HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20"/>
 
-        <!-- Column with 2 Rows -->
+        <!-- Middle Column w/ 2 Rows -->
         <Grid Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -200,7 +197,6 @@
                  VerticalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
             </Grid>
         </Grid>
-
 
         <!-- Rightmost Column -->
         <Grid Grid.Column="2">
