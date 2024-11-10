@@ -78,6 +78,13 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 - Added .png Assets to UI
 - Displays All workouts from a Muscle Group by utilizing "NextPage" In JSon 
 
+11/10
+- Added Display for chosen Exercise's steps & Unit Tests
+- Added a SelectedExercise Container to add and remove from
+- Steps Display works for both ListBox's of Exercises
+- Added Overlay to prevent race conditions
+- Added Place holders for Google API Integration 
+
 
 ## For the Wiki:
 
