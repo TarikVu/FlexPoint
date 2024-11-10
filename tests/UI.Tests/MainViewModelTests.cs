@@ -10,8 +10,8 @@ namespace UI.Tests
 {
     public class MainViewModelTests
     {
-        // Reusable underline for test cases
-        private static readonly string _underline = new('-', 40);
+        
+        private static readonly string _underlineForAssert = new('-', 40);
 
         [Fact]
         public void FetchExer_Initialized()
@@ -33,15 +33,13 @@ namespace UI.Tests
                 new() { Name = "Exercise 2" }
             };
 
-            // Set up mock API 
+
             mockApi.Setup(api => api.GetExercisesAsync(muscleGroup)).ReturnsAsync(sampleExercises);
             var viewModel = new MainViewModel(mockApi.Object);
             viewModel.FetchExercisesCommand.Execute(muscleGroup);
 
-            // Wait for async
             await Task.Delay(100);
 
-            // Assert
             Assert.Equal(2, viewModel.Exercises.Count);
             Assert.Equal("Exercise 1", viewModel.Exercises[0].Name);
             Assert.Equal("Exercise 2", viewModel.Exercises[1].Name);
@@ -59,7 +57,7 @@ namespace UI.Tests
 
 
             viewModel.SelectedExercise = exercise;
-            var expectedOutput = $"PUSH UP\n{_underline}\n\nStep 1\n\nStep 2\n\nStep 3";
+            var expectedOutput = $"PUSH UP\n{_underlineForAssert}\n\nStep 1\n\nStep 2\n\nStep 3";
 
             Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
@@ -89,14 +87,13 @@ namespace UI.Tests
             };
 
             viewModel.SelectedExercise = exercise;
-            var expectedOutput = $"EXERCISE NAME\n{_underline}\n\n123";
+            var expectedOutput = $"EXERCISE NAME\n{_underlineForAssert}\n\n123";
             Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
 
         [Fact]
         public void Steps_UpdateOnSwap()
         {
-            // Arrange
             var viewModel = new MainViewModel();
             var firstExercise = new Exercise
             {
@@ -109,14 +106,13 @@ namespace UI.Tests
                 Instructions = ["Step A", "Step B"]
             };
 
-            // VM picks first Exercise
+
             viewModel.SelectedExercise = firstExercise;
-            var firstExpectedOutput = $"PUSH UP\n{_underline}\n\nStep 1\n\nStep 2";
+            var firstExpectedOutput = $"PUSH UP\n{_underlineForAssert}\n\nStep 1\n\nStep 2";
             Assert.Equal(firstExpectedOutput, viewModel.SelectedExerciseSteps);
 
-            // VM switches Exercise
             viewModel.SelectedExercise = secondExercise;
-            var secondExpectedOutput = $"SQUAT\n{_underline}\n\nStep A\n\nStep B";
+            var secondExpectedOutput = $"SQUAT\n{_underlineForAssert}\n\nStep A\n\nStep B";
             Assert.Equal(secondExpectedOutput, viewModel.SelectedExerciseSteps);
         }
 
@@ -131,7 +127,7 @@ namespace UI.Tests
             };
 
             viewModel.SelectedExercise = exercise;
-            var expectedOutput = $"PUSHUP! #1 @HOME\n{_underline}\n\nABC";
+            var expectedOutput = $"PUSHUP! #1 @HOME\n{_underlineForAssert}\n\nABC";
             Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
 
@@ -146,7 +142,7 @@ namespace UI.Tests
             };
 
             viewModel.SelectedExercise = exercise;
-            var expectedOutput = $"{new('A',100)}\n{_underline}\n\n1\n\n2";
+            var expectedOutput = $"{new('A',100)}\n{_underlineForAssert}\n\n1\n\n2";
             Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
 

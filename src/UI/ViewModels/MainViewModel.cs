@@ -14,9 +14,12 @@ namespace UI.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+
         private readonly ExerciseDbApi _exerciseDbApi;
+
         private ObservableCollection<Exercise> _exercises;
-        public ObservableCollection<Exercise> AddedExercises { get; } = new ObservableCollection<Exercise>();
+        public ObservableCollection<Exercise> AddedExercises { get; } = [];
+        public Exercise? CurrentSelectedExercise => SelectedAddedExercise ?? SelectedExercise;
 
         private int _currentProgress;
         private Visibility _progressVisibility = Visibility.Collapsed;
@@ -116,10 +119,6 @@ namespace UI.ViewModels
             }
         }
 
-        // Property that returns the currently selected exercise from either list
-        public Exercise? CurrentSelectedExercise => SelectedAddedExercise ?? SelectedExercise;
-
-        // Display the steps based on the currently selected exercise
         public string SelectedExerciseSteps
         {
             get
@@ -129,41 +128,32 @@ namespace UI.ViewModels
                     CurrentSelectedExercise.Instructions.Count == 0)
                     return "";
 
-                // Header
                 string workoutHeader = $"{CurrentSelectedExercise.Name.ToUpper()}\n" +
                                        $"{new string('-', 40)}\n";
 
-                // Body
                 string steps = string.Join("\n\n", CurrentSelectedExercise.Instructions.Select((step, index) => $"{step}"));
 
                 return $"{workoutHeader}\n{steps}";
             }
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="exerciseDbApi">To test with a Mock API</param>
-        public MainViewModel(ExerciseDbApi exerciseDbApi)
-        {
-            _exerciseDbApi = exerciseDbApi ?? new ExerciseDbApi(new HttpClient());
-            _exercises = new ObservableCollection<Exercise>();
 
-            // Bind non-async Commands
+        public MainViewModel(ExerciseDbApi mockTestApi)
+        {
+            _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
+            _exercises = [];
+
             MouseEnterCommand = new RelayCommand<string>(OnMouseEnter);
             MouseLeaveCommand = new RelayCommand<object>(_ => OnMouseLeave());
             AddExerciseCommand = new RelayCommand<object>(_ => AddExercise(), () => SelectedExercise != null);
             RemoveExerciseCommand = new RelayCommand<object>(_ => RemoveExercise(), () => SelectedAddedExercise != null);
 
-            // Bind async Commands
             FetchExercisesCommand = new RelayCommand<object>(
                 async (muscle) => await FetchExercisesAsync(muscle as string),
                 () => ProgressVisibility == Visibility.Collapsed
             );
         }
 
-        /// <summary>
-        /// Main Constructor Called by Xaml.cs
-        /// </summary>
         public MainViewModel() : this(new ExerciseDbApi(new HttpClient())) { }
 
         private void AddExercise()
@@ -179,9 +169,10 @@ namespace UI.ViewModels
             if (SelectedAddedExercise != null)
             {
                 AddedExercises.Remove(SelectedAddedExercise);
-                SelectedAddedExercise = null; // Reset selection after removal
+                SelectedAddedExercise = null; 
             }
         }
+
 
         private void OnMouseEnter(string muscleName)
         {
@@ -196,9 +187,11 @@ namespace UI.ViewModels
         private async Task FetchExercisesAsync(string? muscle)
         {
             if (string.IsNullOrEmpty(muscle)) return;
+             
+            Mouse.OverrideCursor = Cursors.Wait;
 
-            // Enable the Progress bar
             ProgressVisibility = Visibility.Visible;
+
             CurrentProgress = 0;
             var progress = new Progress<int>(value => CurrentProgress = value);
 
@@ -210,10 +203,7 @@ namespace UI.ViewModels
                 int count = exerciseList.Count;
                 for (int i = 0; i < count; i++)
                 {
-                    // Update progress
                     ((IProgress<int>)progress).Report((i * 100) / count);
-
-                    // Simulate adding exercise (to avoid blocking UI)
                     await Task.Delay(10);
                     Exercises.Add(exerciseList[i]);
                 }
@@ -224,14 +214,12 @@ namespace UI.ViewModels
             }
             finally
             {
+                 
+                Mouse.OverrideCursor = null;   
                 ProgressVisibility = Visibility.Collapsed;
             }
         }
 
-        /// <summary>
-        /// Updates the view upon a Property Change.
-        /// </summary>
-        /// <param name="propertyName"></param>
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
