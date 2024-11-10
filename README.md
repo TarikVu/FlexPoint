@@ -17,6 +17,7 @@ A desktop application built with .NET 7 and WPF for helping users select stretch
 - **Frontend**:
   - WPF for UI/UX
   - MVVM Pattern for app structure
+    - Microsoft.Xaml.Behaviors.Wpf: Downloaded for Mouse hover behaviors in MVVM 
 - **Testing**:
   - xUnit for unit testing
   - moq (ver Moq 4.20.72 )
@@ -27,6 +28,11 @@ A desktop application built with .NET 7 and WPF for helping users select stretch
 - [MVVM & Data Binding](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
   - [Data Binding](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/?view=netdesktop-8.0)  
   - [Relay Command](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/relaycommand)
+- StackOverflow
+  - [Progress Bar](https://stackoverflow.com/questions/3520359/how-to-implement-a-progress-bar-using-the-mvvm-pattern)
+- Assets
+  - [Body Diagram](https://www.etsy.com/au/listing/1111381930/editable-muscle-map-anatomy-poster)
+  
 
 ## <a name="testing"></a> Testing
 
@@ -42,12 +48,19 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 ### <a name="integration-testing"></a> Integration Testing
 
 
-### Section for developer notes:
+### Dev Log:
 
 11/7:
-project setup and initial pull
+- Project setup and initial pull
  
 11/8:
 - Able to pull from the Open api
 - Added simple UI to display the parsed data and query
 - Added unit tests for api handler
+
+11/9:
+- Refactored from MVC to MVVM 
+- Added Responsive image changes for Muscle Group Diagram
+- Added a Loading indicator
+- Added .png Assets to UI
+- Displays All workouts from a Muscle Group by utilizing "NextPage" In JSon 

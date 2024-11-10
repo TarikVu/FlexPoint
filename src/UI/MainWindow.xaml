@@ -1,41 +1,192 @@
 ﻿<Window x:Class="UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:UI.ViewModels"
-        Title="FlexPoint" Height="450" Width="800">
+        Title="FlexPoint" Height="1000" Width="1000" ResizeMode="NoResize">
     <Window.Resources>
-        <Style x:Key="UniformButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="150"/>
-            <Setter Property="Height" Value="35"/>
+        <Style x:Key="MuscleButton" TargetType="Button">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
         </Style>
     </Window.Resources>
     <Window.DataContext>
         <local:MainViewModel />
     </Window.DataContext>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <ScrollViewer HorizontalAlignment="Left" Margin="10,10,0,10" Width="180">
-            <StackPanel Orientation="Vertical">
-                <Button Content="Abs" Command="{Binding FetchExercisesCommand}" CommandParameter="abs" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Abductors" Command="{Binding FetchExercisesCommand}" CommandParameter="abductors" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Adductors" Command="{Binding FetchExercisesCommand}" CommandParameter="adductors" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Biceps" Command="{Binding FetchExercisesCommand}" CommandParameter="biceps" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Calves" Command="{Binding FetchExercisesCommand}" CommandParameter="calves" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Delts" Command="{Binding FetchExercisesCommand}" CommandParameter="delts" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Forearms" Command="{Binding FetchExercisesCommand}" CommandParameter="forearms" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Glutes" Command="{Binding FetchExercisesCommand}" CommandParameter="glutes" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Hamstrings" Command="{Binding FetchExercisesCommand}" CommandParameter="hamstrings" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Lats" Command="{Binding FetchExercisesCommand}" CommandParameter="lats" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Pectorals" Command="{Binding FetchExercisesCommand}" CommandParameter="pectorals" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Quads" Command="{Binding FetchExercisesCommand}" CommandParameter="quads" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Traps" Command="{Binding FetchExercisesCommand}" CommandParameter="traps" Style="{StaticResource UniformButtonStyle}"/>
-                <Button Content="Triceps" Command="{Binding FetchExercisesCommand}" CommandParameter="triceps" Style="{StaticResource UniformButtonStyle}"/>
-            </StackPanel>
-        </ScrollViewer>
 
-        <ListBox ItemsSource="{Binding Exercises}" DisplayMemberPath="Name"
-                 Margin="0,20,10,9" HorizontalAlignment="Right" Width="224"/>
+    <Grid>
+        <!-- Define the layout structure -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <!-- Left section for buttons and ListBox -->
+            <ColumnDefinition Width="*"/>
+            <!-- Right section for the Image -->
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <!-- Upper section for buttons -->
+            <RowDefinition Height="200"/>
+            <!-- Bottom section for ListBox -->
+        </Grid.RowDefinitions>
+
+        <!-- StackPanel for Buttons in the top-left section -->
+        <StackPanel Grid.Column="0" Grid.Row="0">
+            <Button Content="Abs" Command="{Binding FetchExercisesCommand}" CommandParameter="abs" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="abs"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Abductors" Command="{Binding FetchExercisesCommand}" CommandParameter="abductors" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="abductors"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Biceps" Command="{Binding FetchExercisesCommand}" CommandParameter="biceps" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="biceps"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Calves" Command="{Binding FetchExercisesCommand}" CommandParameter="calves" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="calves"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Delts" Command="{Binding FetchExercisesCommand}" CommandParameter="delts" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="delts"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Forearms" Command="{Binding FetchExercisesCommand}" CommandParameter="forearms" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="forearms"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Glutes" Command="{Binding FetchExercisesCommand}" CommandParameter="glutes" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="glutes"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Hamstrings" Command="{Binding FetchExercisesCommand}" CommandParameter="hamstrings" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="hamstrings"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Lats" Command="{Binding FetchExercisesCommand}" CommandParameter="lats" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="lats"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Pectorals" Command="{Binding FetchExercisesCommand}" CommandParameter="pectorals" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="pectorals"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Quads" Command="{Binding FetchExercisesCommand}" CommandParameter="quads" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="quads"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Traps" Command="{Binding FetchExercisesCommand}" CommandParameter="traps" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="traps"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+            <Button Content="Triceps" Command="{Binding FetchExercisesCommand}" CommandParameter="triceps" Style="{StaticResource MuscleButton}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <i:InvokeCommandAction Command="{Binding MouseEnterCommand}" CommandParameter="triceps"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding MouseLeaveCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+        </StackPanel>
+
+        <!-- ListBox in the bottom-left section -->
+        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Exercises}" DisplayMemberPath="Name"
+                 Height="180" VerticalAlignment="Center"
+                 Margin="10,0,10,0"/>
+
+        <Image Grid.Column="1" Grid.Row="0" Source="{Binding HoveredImageSource}"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20"/>
+
+        <!-- ProgressBar in the bottom section under the Image -->
+        <ProgressBar Grid.Column="1" Grid.Row="1" Value="{Binding CurrentProgress, Mode=OneWay}" 
+                         Visibility="{Binding ProgressVisibility}"
+                         Height="20" Margin="20,10,20,20"/>
     </Grid>
 </Window>

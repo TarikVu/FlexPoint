@@ -9,7 +9,45 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\abductors.png" />
+    <None Remove="Assets\abs.png" />
+    <None Remove="Assets\base.png" />
+    <None Remove="Assets\biceps.png" />
+    <None Remove="Assets\calves.png" />
+    <None Remove="Assets\delts.png" />
+    <None Remove="Assets\forearms.png" />
+    <None Remove="Assets\glutes.png" />
+    <None Remove="Assets\hamstrings.png" />
+    <None Remove="Assets\lats.png" />
+    <None Remove="Assets\pectorals.png" />
+    <None Remove="Assets\quads.png" />
+    <None Remove="Assets\traps.png" />
+    <None Remove="Assets\triceps.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Backend\Backend.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\abductors.png" />
+    <Resource Include="Assets\abs.png" />
+    <Resource Include="Assets\base.png" />
+    <Resource Include="Assets\biceps.png" />
+    <Resource Include="Assets\calves.png" />
+    <Resource Include="Assets\delts.png" />
+    <Resource Include="Assets\forearms.png" />
+    <Resource Include="Assets\glutes.png" />
+    <Resource Include="Assets\hamstrings.png" />
+    <Resource Include="Assets\lats.png" />
+    <Resource Include="Assets\pectorals.png" />
+    <Resource Include="Assets\quads.png" />
+    <Resource Include="Assets\traps.png" />
+    <Resource Include="Assets\triceps.png" />
   </ItemGroup>
 
 </Project>

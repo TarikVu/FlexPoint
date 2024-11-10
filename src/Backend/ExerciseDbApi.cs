@@ -10,7 +10,7 @@ namespace Backend
         private const string _baseUrl = "https://exercisedb-api.vercel.app";
         private readonly List<string> _muscles =
             [
-            "abs", "abductors", "adductors", "biceps","brachialis",
+            "abs", "abductors", "biceps","brachialis",
             "calves","delts", "forearms", "glutes", 
             "hamstrings", "lats", "pectorals",
             "quads",  "traps", "triceps",  
