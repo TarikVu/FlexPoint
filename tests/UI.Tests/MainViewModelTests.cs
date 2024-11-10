@@ -61,7 +61,7 @@ namespace UI.Tests
             viewModel.SelectedExercise = exercise;
             var expectedOutput = $"PUSH UP\n{_underline}\n\nStep 1\n\nStep 2\n\nStep 3";
 
-            Assert.Equal(expectedOutput, viewModel.SelectedWorkoutSteps);
+            Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
 
         [Fact]
@@ -76,10 +76,10 @@ namespace UI.Tests
 
             viewModel.SelectedExercise = exercise;
 
-            Assert.Equal("No steps available", viewModel.SelectedWorkoutSteps);
+            Assert.Equal("", viewModel.SelectedExerciseSteps);
         }
         [Fact]
-        public void Steps_SingleInstr()
+        public void Steps_SingleInstruction()
         {
             var viewModel = new MainViewModel();
             var exercise = new Exercise
@@ -90,7 +90,7 @@ namespace UI.Tests
 
             viewModel.SelectedExercise = exercise;
             var expectedOutput = $"EXERCISE NAME\n{_underline}\n\n123";
-            Assert.Equal(expectedOutput, viewModel.SelectedWorkoutSteps);
+            Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
 
         [Fact]
@@ -112,12 +112,12 @@ namespace UI.Tests
             // VM picks first Exercise
             viewModel.SelectedExercise = firstExercise;
             var firstExpectedOutput = $"PUSH UP\n{_underline}\n\nStep 1\n\nStep 2";
-            Assert.Equal(firstExpectedOutput, viewModel.SelectedWorkoutSteps);
+            Assert.Equal(firstExpectedOutput, viewModel.SelectedExerciseSteps);
 
             // VM switches Exercise
             viewModel.SelectedExercise = secondExercise;
             var secondExpectedOutput = $"SQUAT\n{_underline}\n\nStep A\n\nStep B";
-            Assert.Equal(secondExpectedOutput, viewModel.SelectedWorkoutSteps);
+            Assert.Equal(secondExpectedOutput, viewModel.SelectedExerciseSteps);
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace UI.Tests
 
             viewModel.SelectedExercise = exercise;
             var expectedOutput = $"PUSHUP! #1 @HOME\n{_underline}\n\nABC";
-            Assert.Equal(expectedOutput, viewModel.SelectedWorkoutSteps);
+            Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
 
         [Fact]
@@ -147,11 +147,11 @@ namespace UI.Tests
 
             viewModel.SelectedExercise = exercise;
             var expectedOutput = $"{new('A',100)}\n{_underline}\n\n1\n\n2";
-            Assert.Equal(expectedOutput, viewModel.SelectedWorkoutSteps);
+            Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
 
         [Fact]
-        public void Steps_NullInstr()
+        public void Steps_NullInstruction()
         {  
             var viewModel = new MainViewModel();
             var exercise = new Exercise
@@ -162,7 +162,7 @@ namespace UI.Tests
 
             viewModel.SelectedExercise = exercise;
 
-            Assert.Equal("No steps available", viewModel.SelectedWorkoutSteps);
+            Assert.Equal("", viewModel.SelectedExerciseSteps);
         }
 
        

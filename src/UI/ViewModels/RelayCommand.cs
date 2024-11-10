@@ -62,6 +62,6 @@ namespace UI.ViewModels
 
         public event EventHandler? CanExecuteChanged;
 
-        //public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 }

@@ -40,7 +40,7 @@ It integrates with external APIs to fetch relevant workout recommendations and i
 - [MVVM Design Patterns](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
 - [MVVM & Data Binding](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
   - [Data Binding](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/?view=netdesktop-8.0)  
-  - [Relay Command](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/relaycommand)
+  - [Relay Command & ICommand](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/relaycommand)
 - StackOverflow
   - [Progress Bar](https://stackoverflow.com/questions/3520359/how-to-implement-a-progress-bar-using-the-mvvm-pattern)
 - Assets
@@ -67,14 +67,14 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 - Project setup and initial pull
  
 11/8:
+- Made unit tests for api handler
 - Able to pull from the Open api
 - Added simple UI to display the parsed data and query
-- Added unit tests for api handler
 
 11/9:
 - Refactored from MVC to MVVM 
 - Added Responsive image changes for Muscle Group Diagram
-- Added a Loading indicator
+- Added a Loading progress indicator
 - Added .png Assets to UI
 - Displays All workouts from a Muscle Group by utilizing "NextPage" In JSon 
 
@@ -84,14 +84,14 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 
 ## Developer Notes 
 ### Refresher on RelayCommand and ViewModels for WPF:
-ViewModel is the delegate between the Model and View.  It exposes data 
+ViewModel is the delegate between the Model and View.  It exposes data from the Model to the View.
 
 ### Using Virtual vs Interfaces for testing:
 - [Good StackOverflow Advice](https://stackoverflow.com/questions/691725/mocking-objects-declare-all-methods-as-virtual-or-use-interface)
 
 
 ### In-depth with the Code
-RelayCommand<T> leverages ICommand to run async and non-async commands
+RelayCommand<T> leverages ICommand to run async and non-async commands as well as handles command execution.
 
 #### MainViewModel
-- [Using CallMemberName for Cleaner code](https://www.c-sharpcorner.com/article/use-of-callermembername-with-inotifypropertychanged-interface-in-wpf-mvvm/)
+- [Using CallMemberName for Cleaner code for OnPropertyChange](https://www.c-sharpcorner.com/article/use-of-callermembername-with-inotifypropertychanged-interface-in-wpf-mvvm/)

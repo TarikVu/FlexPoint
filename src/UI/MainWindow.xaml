@@ -189,6 +189,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
+
                 </Grid.RowDefinitions>
 
                 <ProgressBar 
@@ -208,22 +209,41 @@
         <!-- Rightmost Column -->
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" Margin="10" BorderBrush="Black" BorderThickness="1">
-                <TextBlock Text="Area for controls to be implemented" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Border>
+            <!-- Top Area with Buttons and Added Exercises ListBox -->
+            <StackPanel Grid.Row="0" Margin="10">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Remove" Command="{Binding RemoveExerciseCommand}" Margin="5"/>
+                    <Button Content="Save" Margin="5"/>
+                    <Button Content="Upload" Margin="5"/>
+                </StackPanel>
+
+                <ListBox 
+                    ItemsSource="{Binding AddedExercises}"
+                    SelectedItem="{Binding SelectedAddedExercise, Mode=TwoWay}"
+                    DisplayMemberPath="Name"
+                    Height="150" Margin="0,10,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+            </StackPanel>
 
             <Border Grid.Row="1" Margin="10" BorderBrush="Black" BorderThickness="1">
                 <ScrollViewer Grid.Row="1" Margin="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <TextBlock Text="{Binding SelectedWorkoutSteps}" 
+                    <TextBlock Text="{Binding SelectedExerciseSteps}" 
                TextWrapping="Wrap" 
                VerticalAlignment="Top" />
                 </ScrollViewer>
 
             </Border>
+            <Button 
+                Content="Add Exercise"
+                Command="{Binding AddExerciseCommand}"
+                Grid.Row="2" HorizontalAlignment="Center"
+                Margin="5" Padding="5" Width="150" FontSize="14"
+                 />
+
         </Grid>
     </Grid>
 </Window>

@@ -61,3 +61,7 @@ namespace Backend.Models
         public List<string> SecondaryMuscles { get; set; } = [];
     }
 }
+
+
+
+

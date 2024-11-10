@@ -16,6 +16,8 @@ namespace UI.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         private readonly ExerciseDbApi _exerciseDbApi;
         private ObservableCollection<Exercise> _exercises;
+        public ObservableCollection<Exercise> AddedExercises { get; } = new ObservableCollection<Exercise>();
+
         private int _currentProgress;
         private Visibility _progressVisibility = Visibility.Collapsed;
         private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
@@ -23,8 +25,11 @@ namespace UI.ViewModels
         public ICommand MouseEnterCommand { get; }
         public ICommand MouseLeaveCommand { get; }
         public ICommand FetchExercisesCommand { get; }
+        public ICommand AddExerciseCommand { get; }
+        public ICommand RemoveExerciseCommand { get; }
 
         private Exercise? _selectedExercise;
+        private Exercise? _selectedAddedExercise;
 
         public ObservableCollection<Exercise> Exercises
         {
@@ -75,40 +80,65 @@ namespace UI.ViewModels
             }
         }
 
-
         public Exercise? SelectedExercise
         {
             get => _selectedExercise;
             set
             {
-                _selectedExercise = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(SelectedWorkoutSteps)); 
+                if (_selectedExercise != value)
+                {
+                    _selectedExercise = value;
+                    _selectedAddedExercise = null; // Clear other selection
+                    OnPropertyChanged(); // Notify UI to refresh anything bound to SelectedExercise
+                    OnPropertyChanged(nameof(CurrentSelectedExercise)); // Trigger update for CurrentSelectedExercise
+                    OnPropertyChanged(nameof(SelectedExerciseSteps)); // Updates UI with new steps text
+                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged(); // Re-evaluates AddExerciseCommand
+                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged(); // Re-evaluates RemoveExerciseCommand
+                }
             }
         }
 
-        public string SelectedWorkoutSteps
+        public Exercise? SelectedAddedExercise
+        {
+            get => _selectedAddedExercise;
+            set
+            {
+                if (_selectedAddedExercise != value)
+                {
+                    _selectedAddedExercise = value;
+                    _selectedExercise = null; // Clear other selection
+                    OnPropertyChanged(); // Notify UI to refresh anything bound to SelectedAddedExercise
+                    OnPropertyChanged(nameof(CurrentSelectedExercise)); // Trigger update for CurrentSelectedExercise
+                    OnPropertyChanged(nameof(SelectedExerciseSteps)); // Updates UI with new steps text
+                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged(); // Re-evaluates AddExerciseCommand
+                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged(); // Re-evaluates RemoveExerciseCommand
+                }
+            }
+        }
+
+        // Property that returns the currently selected exercise from either list
+        public Exercise? CurrentSelectedExercise => SelectedAddedExercise ?? SelectedExercise;
+
+        // Display the steps based on the currently selected exercise
+        public string SelectedExerciseSteps
         {
             get
             {
-                if (SelectedExercise == null || 
-                    SelectedExercise.Instructions == null || 
-                    SelectedExercise.Instructions.Count == 0)
-                    return "No steps available";
+                if (CurrentSelectedExercise == null ||
+                    CurrentSelectedExercise.Instructions == null ||
+                    CurrentSelectedExercise.Instructions.Count == 0)
+                    return "";
 
                 // Header
-                string workoutHeader = $"{SelectedExercise.Name.ToUpper()}\n" +
-                    $"{new string('-', 40)}\n";
+                string workoutHeader = $"{CurrentSelectedExercise.Name.ToUpper()}\n" +
+                                       $"{new string('-', 40)}\n";
 
                 // Body
-                string steps = string.Join("\n\n", SelectedExercise.Instructions.Select((step, index) => $"{step}"));
+                string steps = string.Join("\n\n", CurrentSelectedExercise.Instructions.Select((step, index) => $"{step}"));
 
                 return $"{workoutHeader}\n{steps}";
             }
         }
-
-
-
 
         /// <summary>
         /// </summary>
@@ -116,11 +146,13 @@ namespace UI.ViewModels
         public MainViewModel(ExerciseDbApi exerciseDbApi)
         {
             _exerciseDbApi = exerciseDbApi ?? new ExerciseDbApi(new HttpClient());
-            _exercises = [];
+            _exercises = new ObservableCollection<Exercise>();
 
             // Bind non-async Commands
             MouseEnterCommand = new RelayCommand<string>(OnMouseEnter);
             MouseLeaveCommand = new RelayCommand<object>(_ => OnMouseLeave());
+            AddExerciseCommand = new RelayCommand<object>(_ => AddExercise(), () => SelectedExercise != null);
+            RemoveExerciseCommand = new RelayCommand<object>(_ => RemoveExercise(), () => SelectedAddedExercise != null);
 
             // Bind async Commands
             FetchExercisesCommand = new RelayCommand<object>(
@@ -133,6 +165,23 @@ namespace UI.ViewModels
         /// Main Constructor Called by Xaml.cs
         /// </summary>
         public MainViewModel() : this(new ExerciseDbApi(new HttpClient())) { }
+
+        private void AddExercise()
+        {
+            if (SelectedExercise != null && !AddedExercises.Contains(SelectedExercise))
+            {
+                AddedExercises.Add(SelectedExercise);
+            }
+        }
+
+        private void RemoveExercise()
+        {
+            if (SelectedAddedExercise != null)
+            {
+                AddedExercises.Remove(SelectedAddedExercise);
+                SelectedAddedExercise = null; // Reset selection after removal
+            }
+        }
 
         private void OnMouseEnter(string muscleName)
         {
