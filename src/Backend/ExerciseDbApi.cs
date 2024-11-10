@@ -1,20 +1,29 @@
 ﻿
 using System.Text.Json;
 using Backend.Models;
+using Microsoft.Extensions.Configuration;
+using static System.Net.WebRequestMethods;
 
 namespace Backend
 {
-    public class ExerciseDbApi(HttpClient httpClient)
+    public class ExerciseDbApi
     {
-        private readonly HttpClient _httpClient = httpClient;
-        private const string _baseUrl = "https://exercisedb-api.vercel.app";
-        private readonly List<string> _muscles =
-            [
-            "abs", "abductors", "biceps","brachialis",
-            "calves","delts", "forearms", "glutes", 
-            "hamstrings", "lats", "pectorals",
-            "quads",  "traps", "triceps",  
-            ];
+        private readonly HttpClient _httpClient; 
+        private readonly List<string> _validMuscles;
+        private readonly string _baseUrl = "https://exercisedb-api.vercel.app";
+
+
+        public ExerciseDbApi(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+            
+            // Load Api Configurations for valid keys
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            _validMuscles = configuration.GetSection("ExerciseApi:Muscles").Get<List<string>>() ?? [];
+        }
 
 
         /// <summary>
@@ -28,7 +37,7 @@ namespace Backend
         /// <exception cref="JsonException">API did not return expected fields</exception>
         public virtual async Task<List<Exercise>> GetExercisesAsync(string muscle)
         {
-            if (!_muscles.Contains(muscle))
+            if (!_validMuscles.Contains(muscle))
             {
                 throw new ArgumentException("Invalid Query Parameter");
             }

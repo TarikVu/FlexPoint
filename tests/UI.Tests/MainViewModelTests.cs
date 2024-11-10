@@ -28,8 +28,8 @@ namespace UI.Tests
 
             var mockApi = new Mock<ExerciseDbApi>(new HttpClient());
             var sampleExercises = new List<Exercise> {
-                new Exercise { Name = "Exercise 1" },
-                new Exercise { Name = "Exercise 2" }
+                new() { Name = "Exercise 1" },
+                new() { Name = "Exercise 2" }
             };
 
             // Set up mock API 
