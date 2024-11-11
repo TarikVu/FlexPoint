@@ -37,16 +37,16 @@ namespace Backend.Models
     public class Exercise
     {
         [JsonPropertyName("exerciseId")]
-        public string ExerciseId { get; set; } = string.Empty;
+        public required string ExerciseId { get; set; }  
 
         [JsonPropertyName("name")]
-        public string Name { get; set; } = string.Empty;
+        public required string Name { get; set; } = string.Empty;
 
         [JsonPropertyName("gifUrl")]
         public string GifUrl { get; set; } = string.Empty;
 
         [JsonPropertyName("instructions")]
-        public List<string>? Instructions { get; set; }
+        public required List<string> Instructions { get; set; }
 
         [JsonPropertyName("targetMuscles")]
         public List<string> TargetMuscles { get; set; } = [];

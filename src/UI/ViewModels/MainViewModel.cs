@@ -8,6 +8,12 @@ using System.Windows;
 using System.Windows.Input;
 using Backend;
 using Backend.Models;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
+using System.IO;
+using PdfSharp.Drawing.Layout;
+using Microsoft.Win32;
+using UI.Services;
 
 namespace UI.ViewModels
 {
@@ -21,6 +27,8 @@ namespace UI.ViewModels
         public ObservableCollection<Exercise> AddedExercises { get; } = [];
         public Exercise? CurrentSelectedExercise => SelectedAddedExercise ?? SelectedExercise;
 
+        private readonly PdfWriter _pdfWriter;
+
         private int _currentProgress;
         private Visibility _progressVisibility = Visibility.Collapsed;
         private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
@@ -30,6 +38,7 @@ namespace UI.ViewModels
         public ICommand FetchExercisesCommand { get; }
         public ICommand AddExerciseCommand { get; }
         public ICommand RemoveExerciseCommand { get; }
+        public ICommand SaveCommand { get; }
 
         private Exercise? _selectedExercise;
         private Exercise? _selectedAddedExercise;
@@ -140,28 +149,34 @@ namespace UI.ViewModels
 
         public MainViewModel(ExerciseDbApi mockTestApi)
         {
-            _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
             _exercises = [];
+            _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
+            _pdfWriter = new PdfWriter();
 
+            SaveCommand = new RelayCommand<object>(_ => SaveToPdf(), () => AddedExercises.Count > 0);
             MouseEnterCommand = new RelayCommand<string>(OnMouseEnter);
             MouseLeaveCommand = new RelayCommand<object>(_ => OnMouseLeave());
             AddExerciseCommand = new RelayCommand<object>(_ => AddExercise(), () => SelectedExercise != null);
             RemoveExerciseCommand = new RelayCommand<object>(_ => RemoveExercise(), () => SelectedAddedExercise != null);
-
             FetchExercisesCommand = new RelayCommand<object>(
                 async (muscle) => await FetchExercisesAsync(muscle as string),
                 () => ProgressVisibility == Visibility.Collapsed
             );
+
+            AddedExercises.CollectionChanged += (s, e) =>
+            {
+                ((RelayCommand<object>)SaveCommand).RaiseCanExecuteChanged();
+            };
         }
 
         public MainViewModel() : this(new ExerciseDbApi(new HttpClient())) { }
 
         private void AddExercise()
         {
-            if (SelectedExercise != null && !AddedExercises.Contains(SelectedExercise))
-            {
-                AddedExercises.Add(SelectedExercise);
-            }
+            if (SelectedExercise == null || AddedExercises.Any(ex => ex.ExerciseId == SelectedExercise.ExerciseId))
+                return;
+
+            AddedExercises.Add(SelectedExercise);
         }
 
         private void RemoveExercise()
@@ -169,7 +184,7 @@ namespace UI.ViewModels
             if (SelectedAddedExercise != null)
             {
                 AddedExercises.Remove(SelectedAddedExercise);
-                SelectedAddedExercise = null; 
+                SelectedAddedExercise = null;
             }
         }
 
@@ -184,22 +199,16 @@ namespace UI.ViewModels
             HoveredImageSource = "pack://application:,,,/Assets/base.png";
         }
 
-        private async Task FetchExercisesAsync(string? muscle)
-        {
-            if (string.IsNullOrEmpty(muscle)) return;
-             
-            Mouse.OverrideCursor = Cursors.Wait;
-
-            ProgressVisibility = Visibility.Visible;
-
+        private async Task FetchExercisesAsync(string muscle)
+        { 
             CurrentProgress = 0;
+            ProgressVisibility = Visibility.Visible;
             var progress = new Progress<int>(value => CurrentProgress = value);
 
             try
             {
-                var exerciseList = await _exerciseDbApi.GetExercisesAsync(muscle);
-
                 Exercises.Clear();
+                var exerciseList = await _exerciseDbApi.GetExercisesAsync(muscle);
                 int count = exerciseList.Count;
                 for (int i = 0; i < count; i++)
                 {
@@ -215,8 +224,22 @@ namespace UI.ViewModels
             finally
             {
                  
-                Mouse.OverrideCursor = null;   
                 ProgressVisibility = Visibility.Collapsed;
+            }
+        }
+        public void SaveToPdf()
+        {
+            SaveFileDialog saveFileDialog = new()
+            {
+                Filter = "PDF files (*.pdf)|*.pdf",
+                FileName = "Exercises.pdf",
+                DefaultExt = ".pdf"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filename = saveFileDialog.FileName;
+                _pdfWriter.Save(filename, AddedExercises);
             }
         }
 

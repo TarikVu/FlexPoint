@@ -4,12 +4,14 @@ using Backend.Models;
 using Moq;
 using Moq.Protected;
 using System.Text.Json;
+using Xunit;
 
 namespace Backend.Tests
 {
     public class ApiUnitTests
     {
         private readonly string basicResponse;
+
         public ApiUnitTests()
         {
             basicResponse = JsonSerializer.Serialize(new ApiResponse
@@ -17,7 +19,10 @@ namespace Backend.Tests
                 Success = true,
                 Data = new ExerciseData
                 {
-                    Exercises = [new Exercise { ExerciseId = "1", Name = "Bicep Curl" }]
+                    Exercises = new List<Exercise>
+                    {
+                        new Exercise { ExerciseId = "1", Name = "Bicep Curl", Instructions = new List<string> { "Curl your arms." } }
+                    }
                 }
             });
         }
@@ -39,7 +44,6 @@ namespace Backend.Tests
 
             return mockHttpMessageHandler;
         }
-
 
         [Fact]
         public async Task GetSimpleExercise()
@@ -63,7 +67,7 @@ namespace Backend.Tests
                 Success = true,
                 Data = new ExerciseData
                 {
-                    Exercises = [] // Empty list
+                    Exercises = new List<Exercise>() // Empty list
                 }
             });
 
@@ -86,7 +90,10 @@ namespace Backend.Tests
                 Success = true,
                 Data = new ExerciseData
                 {
-                    Exercises = [new Exercise { ExerciseId = null, Name = null }]
+                    Exercises = new List<Exercise>
+                    {
+                        new Exercise { ExerciseId = null, Name = null, Instructions = new List<string>() }
+                    }
                 }
             });
 
@@ -105,16 +112,15 @@ namespace Backend.Tests
         [Fact]
         public async Task GetExercises_ApiReturnsSuccessFalse()
         {
-
             var mockResponseContent = JsonSerializer.Serialize(new ApiResponse
             {
                 Success = false, // API indicates failure
                 Data = new ExerciseData
                 {
-                    Exercises =
-            [
-                new Exercise { ExerciseId = "1", Name = "Bicep Curl" }
-            ]
+                    Exercises = new List<Exercise>
+                    {
+                        new Exercise { ExerciseId = "1", Name = "Bicep Curl", Instructions = new List<string> { "Curl your arms." } }
+                    }
                 }
             });
 

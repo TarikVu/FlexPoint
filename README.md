@@ -35,7 +35,8 @@ It integrates with external APIs to fetch relevant workout recommendations and i
   - moq (ver Moq 4.20.72 )
   - TDD (Test-Driven Development)
 
-## References
+## References & Packages Utilized
+
 - [ExerciseDB API](https://exercisedb-api.vercel.app/docs) 
 - [MVVM Design Patterns](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
 - [MVVM & Data Binding](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
@@ -45,6 +46,10 @@ It integrates with external APIs to fetch relevant workout recommendations and i
   - [Progress Bar](https://stackoverflow.com/questions/3520359/how-to-implement-a-progress-bar-using-the-mvvm-pattern)
 - Assets
   - [Body Diagram](https://www.etsy.com/au/listing/1111381930/editable-muscle-map-anatomy-poster)
+
+- [PDFsharp](https://docs.pdfsharp.net/)
+    - [Formatting with PDFsharp](https://docs.pdfsharp.net/MigraDoc/DOM/Document/Formatting.html)
+    - [Basic Example of how to use PDFsharp](https://craftmypdf.com/blog/5-ways-to-generate-pdfs-with-c-sharp/)
   
 
 ## <a name="testing"></a> Testing
