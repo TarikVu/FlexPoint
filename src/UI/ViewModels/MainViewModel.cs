@@ -100,12 +100,12 @@ namespace UI.ViewModels
                 if (_selectedExercise != value)
                 {
                     _selectedExercise = value;
-                    _selectedAddedExercise = null; // Clear other selection
-                    OnPropertyChanged(); // Notify UI to refresh anything bound to SelectedExercise
-                    OnPropertyChanged(nameof(CurrentSelectedExercise)); // Trigger update for CurrentSelectedExercise
-                    OnPropertyChanged(nameof(SelectedExerciseSteps)); // Updates UI with new steps text
-                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged(); // Re-evaluates AddExerciseCommand
-                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged(); // Re-evaluates RemoveExerciseCommand
+                    _selectedAddedExercise = null;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(CurrentSelectedExercise));
+                    OnPropertyChanged(nameof(SelectedExerciseSteps));
+                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged();
+                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged();
                 }
             }
         }
@@ -118,12 +118,12 @@ namespace UI.ViewModels
                 if (_selectedAddedExercise != value)
                 {
                     _selectedAddedExercise = value;
-                    _selectedExercise = null; // Clear other selection
-                    OnPropertyChanged(); // Notify UI to refresh anything bound to SelectedAddedExercise
-                    OnPropertyChanged(nameof(CurrentSelectedExercise)); // Trigger update for CurrentSelectedExercise
-                    OnPropertyChanged(nameof(SelectedExerciseSteps)); // Updates UI with new steps text
-                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged(); // Re-evaluates AddExerciseCommand
-                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged(); // Re-evaluates RemoveExerciseCommand
+                    _selectedExercise = null; 
+                    OnPropertyChanged(); 
+                    OnPropertyChanged(nameof(CurrentSelectedExercise)); 
+                    OnPropertyChanged(nameof(SelectedExerciseSteps)); 
+                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged(); 
+                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged(); 
                 }
             }
         }

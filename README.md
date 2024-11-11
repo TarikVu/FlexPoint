@@ -50,7 +50,7 @@ It integrates with external APIs to fetch relevant workout recommendations and i
 - [PDFsharp](https://docs.pdfsharp.net/)
     - [Formatting with PDFsharp](https://docs.pdfsharp.net/MigraDoc/DOM/Document/Formatting.html)
     - [Basic Example of how to use PDFsharp](https://craftmypdf.com/blog/5-ways-to-generate-pdfs-with-c-sharp/)
-  
+    - [Drawing Images on PDF pages](https://docs.pdfsharp.net/PDFsharp/Topics/Bitmap-Images/Drawing.html)
 
 ## <a name="testing"></a> Testing
 

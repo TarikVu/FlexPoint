@@ -2,6 +2,9 @@
 using PdfSharp.Drawing.Layout;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace UI.Services
 {
@@ -19,23 +22,59 @@ namespace UI.Services
             PdfPage page = document.AddPage();
             XGraphics gfx = XGraphics.FromPdfPage(page);
             XTextFormatter textFormatter = new(gfx);
-             
-            XFont fontTitle = new("Verdana", 12);
-            XFont fontStep = new("Verdana", 10);
+
+            XFont fontMuscleGroup = new("Verdana", 14); // Font for muscle category
+            XFont fontTitle = new("Verdana", 12); // Font for exercise name
+            XFont fontStep = new("Verdana", 10); // Font for steps
             double contentWidth = page.Width.Point - 2 * _leftMargin;
             double currentYPosition = _topMargin;
 
-            foreach (var exercise in exercises)
+            var groupedExercises = exercises.GroupBy(e => e.TargetMuscles.FirstOrDefault() ?? "Unknown");
+
+            foreach (var group in groupedExercises)
             {
-                double requiredHeight = CalculateRequiredHeight(exercise);
-                if (IsNewPageRequired(currentYPosition, requiredHeight, page))
+                string imagePath = $"Assets/{group.Key.ToLower()}.png";
+                double imageWidth = 0, imageHeight = 0;
+
+                if (File.Exists(imagePath))
                 {
-                    page = document.AddPage();
-                    gfx = XGraphics.FromPdfPage(page);
-                    textFormatter = new XTextFormatter(gfx);
-                    currentYPosition = _topMargin;
+                    XImage image = XImage.FromFile(imagePath);
+                    double scaleFactor = 0.05;
+                    imageWidth = image.PixelWidth * scaleFactor;
+                    imageHeight = image.PixelHeight * scaleFactor;
+
+                    gfx.DrawImage(image, _leftMargin, currentYPosition, imageWidth, imageHeight);
+
+                    var muscleGroupRect = new XRect(_leftMargin + imageWidth + 10, currentYPosition + imageHeight - _lineHeightTitle, contentWidth - imageWidth - 10, _lineHeightTitle);
+                    textFormatter.Alignment = XParagraphAlignment.Left;
+                    textFormatter.DrawString(group.Key.ToUpper(), fontMuscleGroup, XBrushes.Black, muscleGroupRect, XStringFormats.TopLeft);
+
+                    currentYPosition += imageHeight + _extraSpaceBetweenExercises;
                 }
-                currentYPosition = PrintTitleAndSteps(gfx, textFormatter, exercise, fontTitle, fontStep, contentWidth, currentYPosition);
+                else
+                {
+                    var muscleGroupRect = new XRect(_leftMargin, currentYPosition, contentWidth, _lineHeightTitle);
+                    textFormatter.Alignment = XParagraphAlignment.Left;
+                    textFormatter.DrawString(group.Key.ToUpper(), fontMuscleGroup, XBrushes.Black, muscleGroupRect, XStringFormats.TopLeft);
+                    currentYPosition += _lineHeightTitle + _extraSpaceBetweenExercises;
+                }
+
+                gfx.DrawLine(XPens.Black, _leftMargin, currentYPosition, page.Width.Point - _leftMargin, currentYPosition);
+                currentYPosition += _extraSpaceBetweenExercises / 2;
+
+                foreach (var exercise in group)
+                {
+                    double requiredHeight = CalculateRequiredHeight(exercise);
+                    if (IsNewPageRequired(currentYPosition, requiredHeight, page))
+                    {
+                        page = document.AddPage();
+                        gfx = XGraphics.FromPdfPage(page);
+                        textFormatter = new XTextFormatter(gfx);
+                        currentYPosition = _topMargin;
+                    }
+
+                    currentYPosition = PrintTitleAndSteps(gfx, textFormatter, exercise, fontTitle, fontStep, contentWidth, currentYPosition);
+                }
             }
 
             document.Save(filename);
@@ -69,4 +108,3 @@ namespace UI.Services
         }
     }
 }
-
