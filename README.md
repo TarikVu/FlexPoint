@@ -18,6 +18,7 @@ It integrates with external APIs to fetch relevant workout recommendations and i
 - Google Calendar Upload:
     - Users will be able to construct workout regimen and upload it to their google Calendars.
 
+
 ## Tech Stack
 - **Backend**:
   - .NET 8

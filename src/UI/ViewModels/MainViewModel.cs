@@ -20,17 +20,17 @@ namespace UI.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        private readonly ExerciseDbApi _exerciseDbApi;
+
+        private ObservableCollection<Exercise> _exercises;
         public ObservableCollection<Exercise> AddedExercises { get; } = [];
         public Exercise? CurrentSelectedExercise => SelectedAddedExercise ?? SelectedExercise;
 
-        private readonly ExerciseDbApi _exerciseDbApi;
         private readonly PdfWriter _pdfWriter;
-        private Exercise? _selectedExercise;
-        private Exercise? _selectedAddedExercise;
-        private ObservableCollection<Exercise> _exercises;
-      
+
         private int _currentProgress;
-        private Visibility _showProgressBar = Visibility.Collapsed;
+        private Visibility _progressVisibility = Visibility.Collapsed;
         private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
 
         public ICommand MouseEnterCommand { get; }
@@ -40,7 +40,8 @@ namespace UI.ViewModels
         public ICommand RemoveExerciseCommand { get; }
         public ICommand SaveCommand { get; }
 
-       
+        private Exercise? _selectedExercise;
+        private Exercise? _selectedAddedExercise;
 
         public ObservableCollection<Exercise> Exercises
         {
@@ -65,14 +66,14 @@ namespace UI.ViewModels
             }
         }
 
-        public Visibility ShowProgressBar
+        public Visibility ProgressVisibility
         {
-            get => _showProgressBar;
+            get => _progressVisibility;
             private set
             {
-                if (_showProgressBar != value)
+                if (_progressVisibility != value)
                 {
-                    _showProgressBar = value;
+                    _progressVisibility = value;
                     OnPropertyChanged();
                 }
             }
@@ -151,16 +152,14 @@ namespace UI.ViewModels
             _exercises = [];
             _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
             _pdfWriter = new PdfWriter();
-
             SaveCommand = new RelayCommand<object>(_ => SaveToPdf(), () => AddedExercises.Count > 0);
             MouseEnterCommand = new RelayCommand<string>(OnMouseEnter);
             MouseLeaveCommand = new RelayCommand<object>(_ => OnMouseLeave());
             AddExerciseCommand = new RelayCommand<object>(_ => AddExercise(), () => SelectedExercise != null);
             RemoveExerciseCommand = new RelayCommand<object>(_ => RemoveExercise(), () => SelectedAddedExercise != null);
-
             FetchExercisesCommand = new RelayCommand<object>(
                 async (muscle) => await FetchExercisesAsync((muscle as string)!),
-                () => ShowProgressBar == Visibility.Collapsed
+                () => ProgressVisibility == Visibility.Collapsed
             );
 
             AddedExercises.CollectionChanged += (s, e) =>
@@ -202,13 +201,13 @@ namespace UI.ViewModels
         private async Task FetchExercisesAsync(string muscle)
         { 
             CurrentProgress = 0;
-            ShowProgressBar = Visibility.Visible;
-            Progress<int> progress = new (value => CurrentProgress = value);
+            ProgressVisibility = Visibility.Visible;
+            var progress = new Progress<int>(value => CurrentProgress = value);
 
             try
             {
                 Exercises.Clear();
-                List<Exercise> exerciseList = await _exerciseDbApi.GetExercisesAsync(muscle);
+                var exerciseList = await _exerciseDbApi.GetExercisesAsync(muscle);
                 int count = exerciseList.Count;
                 for (int i = 0; i < count; i++)
                 {
@@ -217,17 +216,15 @@ namespace UI.ViewModels
                     Exercises.Add(exerciseList[i]);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine($"Error {e.Message}");
-                MessageBox.Show($"Error trying to fetching exercises: {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Console.WriteLine($"Error fetching exercises: {ex.Message}");
             }
             finally
             {
-                ShowProgressBar = Visibility.Collapsed;
+                ProgressVisibility = Visibility.Collapsed;
             }
         }
-
         public void SaveToPdf()
         {
             SaveFileDialog saveFileDialog = new()
@@ -239,16 +236,8 @@ namespace UI.ViewModels
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                try
-                {
-                    string filename = saveFileDialog.FileName;
-                    _pdfWriter.Save(filename, AddedExercises);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error {e.Message}");
-                    MessageBox.Show($"Error saving the PDF: {e.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }   
+                string filename = saveFileDialog.FileName;
+                _pdfWriter.Save(filename, AddedExercises);
             }
         }
 

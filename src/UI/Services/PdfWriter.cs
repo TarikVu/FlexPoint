@@ -19,7 +19,6 @@ namespace UI.Services
 
         private readonly XStringFormat _textFormat = XStringFormats.TopLeft;
         private readonly XBrush _fontColor = XBrushes.Black;
-        private static readonly TextInfo _stringFormatter = CultureInfo.CurrentCulture.TextInfo;
 
         public void Save(string filename, IEnumerable<Exercise> exercises)
         {
@@ -35,7 +34,7 @@ namespace UI.Services
                 double contentWidth = page.Width.Point - 2 * _leftMargin;
                 double currentPosition = _verticalMargin;
                 currentPosition = PrintHeader(gfx, textFormatter, group.Key, contentWidth, currentPosition);
-                currentPosition = PrintExercises(textFormatter, page, group, contentWidth, currentPosition, document);
+                currentPosition = PrintExercises(gfx, textFormatter, page, group, contentWidth, currentPosition, document);
             }
 
             document.Save(filename);
@@ -54,39 +53,39 @@ namespace UI.Services
                 currentPosition += imageHeight + 5; 
             }
 
-            XRect muscleGroupRect = new(_leftMargin, currentPosition, contentWidth, _verticalMargin); 
+            var muscleGroupRect = new XRect(_leftMargin, currentPosition, contentWidth, _verticalMargin); 
             textFormatter.DrawString(muscleGroup.ToUpper(), fontMuscleGroup, _fontColor, muscleGroupRect, _textFormat);
             currentPosition += _verticalMargin;
             DrawUnderline(gfx, contentWidth, currentPosition);
             return currentPosition += _verticalMargin / 2;
         }
 
-        private double PrintExercises(XTextFormatter textFormatter, PdfPage page, IGrouping<string, Exercise> group, double contentWidth, double currentPosition, PdfDocument document)
+        private double PrintExercises(XGraphics gfx, XTextFormatter textFormatter, PdfPage page, IGrouping<string, Exercise> group, double contentWidth, double currentPosition, PdfDocument document)
         {
             foreach (var exercise in group)
             {
                 double requiredHeight = CalculateRequiredHeight(exercise);
-
                 if (IsNewPageRequired(currentPosition, requiredHeight, page))
                 {
                     page = document.AddPage();
+                    gfx = XGraphics.FromPdfPage(page);
+                    textFormatter = new XTextFormatter(gfx);
                     currentPosition = _verticalMargin;
                 }
 
-                XRect titleRect = new(_leftMargin, currentPosition, contentWidth, _verticalMargin); 
-                textFormatter.DrawString(_stringFormatter.ToTitleCase(exercise.Name), fontTitle, _fontColor, titleRect, _textFormat);
+                var titleRect = new XRect(_leftMargin, currentPosition, contentWidth, _verticalMargin); 
+                textFormatter.DrawString(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(exercise.Name), fontTitle, _fontColor, titleRect, _textFormat);
                 currentPosition += _verticalMargin + 5;
 
-                StringBuilder stepsTextBuilder = new();
-                foreach (string step in exercise.Instructions)
+                var stepsTextBuilder = new StringBuilder();
+                foreach (var step in exercise.Instructions)
                 {
                     stepsTextBuilder.AppendLine(step);
                 }
 
                 string stepsText = stepsTextBuilder.ToString();
                 double stepsHeight = exercise.Instructions.Count * _lineHeight;
-
-                XRect instructionsRect = new(_leftMargin, currentPosition, contentWidth, stepsHeight);
+                var instructionsRect = new XRect(_leftMargin, currentPosition, contentWidth, stepsHeight);
                 textFormatter.DrawString(stepsText, fontStep, _fontColor, instructionsRect, _textFormat);
                 currentPosition += stepsHeight + _verticalMargin;
             }
@@ -101,7 +100,7 @@ namespace UI.Services
         private double CalculateRequiredHeight(Exercise exercise)
         {
             double stepsHeight = exercise.Instructions.Count * _lineHeight;
-            return _verticalMargin + stepsHeight;
+            return _verticalMargin + stepsHeight + _verticalMargin;
         }
 
         private static bool IsNewPageRequired(double currentPosition, double requiredHeight, PdfPage page)
