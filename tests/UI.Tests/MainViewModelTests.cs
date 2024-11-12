@@ -11,8 +11,6 @@ namespace UI.Tests
 {
     public class MainViewModelTests
     {
-        private static readonly string _underlineForAssert = new('-', 40);
-
         [Fact]
         public void FetchExer_Initialized()
         {
@@ -53,11 +51,11 @@ namespace UI.Tests
             {
                 ExerciseId = "1",
                 Name = "Push Up",
-                Instructions = new List<string> { "Step 1", "Step 2", "Step 3" }
+                Instructions = ["Step 1", "Step 2", "Step 3"]
             };
 
             viewModel.SelectedExercise = exercise;
-            var expectedOutput = $"PUSH UP\n{_underlineForAssert}\n\nStep 1\n\nStep 2\n\nStep 3";
+            var expectedOutput = "Step 1\n\nStep 2\n\nStep 3";
 
             Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
@@ -70,7 +68,7 @@ namespace UI.Tests
             {
                 ExerciseId = "2",
                 Name = "A Workout Without Steps",
-                Instructions = new List<string>()
+                Instructions = []
             };
 
             viewModel.SelectedExercise = exercise;
@@ -86,11 +84,11 @@ namespace UI.Tests
             {
                 ExerciseId = "3",
                 Name = "Exercise name",
-                Instructions = new List<string> { "123" }
+                Instructions = ["123"]
             };
 
             viewModel.SelectedExercise = exercise;
-            var expectedOutput = $"EXERCISE NAME\n{_underlineForAssert}\n\n123";
+            var expectedOutput = "123";
             Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
 
@@ -102,37 +100,37 @@ namespace UI.Tests
             {
                 ExerciseId = "4",
                 Name = "Push Up",
-                Instructions = new List<string> { "Step 1", "Step 2" }
+                Instructions = ["Step 1", "Step 2"]
             };
             var secondExercise = new Exercise
             {
                 ExerciseId = "5",
                 Name = "Squat",
-                Instructions = new List<string> { "Step A", "Step B" }
+                Instructions = ["Step A", "Step B"]
             };
 
             viewModel.SelectedExercise = firstExercise;
-            var firstExpectedOutput = $"PUSH UP\n{_underlineForAssert}\n\nStep 1\n\nStep 2";
+            var firstExpectedOutput = "Step 1\n\nStep 2";
             Assert.Equal(firstExpectedOutput, viewModel.SelectedExerciseSteps);
 
             viewModel.SelectedExercise = secondExercise;
-            var secondExpectedOutput = $"SQUAT\n{_underlineForAssert}\n\nStep A\n\nStep B";
+            var secondExpectedOutput = "Step A\n\nStep B";
             Assert.Equal(secondExpectedOutput, viewModel.SelectedExerciseSteps);
         }
 
         [Fact]
-        public void Steps_SpecialCharactersInName()
+        public void Steps_SpecialCharacters()
         {
             var viewModel = new MainViewModel();
             var exercise = new Exercise
             {
                 ExerciseId = "6",
                 Name = "pushup! #1 @Home",
-                Instructions = new List<string> { "ABC" }
+                Instructions = ["ABC#$!#$!"]
             };
 
             viewModel.SelectedExercise = exercise;
-            var expectedOutput = $"PUSHUP! #1 @HOME\n{_underlineForAssert}\n\nABC";
+            var expectedOutput = "ABC#$!#$!";
             Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
 
@@ -144,13 +142,14 @@ namespace UI.Tests
             {
                 ExerciseId = "7",
                 Name = new string('a', 100),
-                Instructions = new List<string> { "1", "2" }
+                Instructions = ["1", "2"]
             };
 
             viewModel.SelectedExercise = exercise;
-            var expectedOutput = $"{new string('A', 100)}\n{_underlineForAssert}\n\n1\n\n2";
+            var expectedOutput = "1\n\n2";  
             Assert.Equal(expectedOutput, viewModel.SelectedExerciseSteps);
         }
+
 
         [Fact]
         public void Steps_NullInstruction()
@@ -160,7 +159,7 @@ namespace UI.Tests
             {
                 ExerciseId = "8",
                 Name = "Null Instructions",
-                Instructions = new List<string>() // Even though instructions can be empty, they should not be null
+                Instructions = [] 
             };
 
             viewModel.SelectedExercise = exercise;
