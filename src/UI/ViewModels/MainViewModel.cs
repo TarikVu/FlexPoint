@@ -103,6 +103,7 @@ namespace UI.ViewModels
                     _selectedAddedExercise = null;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(CurrentSelectedExercise));
+                    OnPropertyChanged(nameof(SelectedAddedExercise));
                     OnPropertyChanged(nameof(SelectedExerciseSteps));
                     ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged();
                     ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged();
@@ -120,7 +121,8 @@ namespace UI.ViewModels
                     _selectedAddedExercise = value;
                     _selectedExercise = null; 
                     OnPropertyChanged(); 
-                    OnPropertyChanged(nameof(CurrentSelectedExercise)); 
+                    OnPropertyChanged(nameof(CurrentSelectedExercise));
+                    OnPropertyChanged(nameof(SelectedExercise));
                     OnPropertyChanged(nameof(SelectedExerciseSteps)); 
                     ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged(); 
                     ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged(); 
