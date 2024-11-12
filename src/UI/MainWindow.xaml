@@ -102,7 +102,7 @@
             <Setter Property="Foreground"
                     Value="White" />
             <Setter Property="Background"
-                    Value="#333" />
+                    Value="#444" />
             <Setter Property="HorizontalContentAlignment"
                     Value="Stretch" />
             <Setter Property="VerticalContentAlignment"
@@ -149,8 +149,8 @@
 
         <Border Grid.Column="0"
                 Background="White"
-                BorderBrush="#222"
-                BorderThickness="0,0,4,0">
+                BorderBrush="#333"
+                BorderThickness="0,0,2,0">
             <Image Source="{Binding HoveredImageSource}"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
@@ -449,7 +449,6 @@
                        HorizontalAlignment="Center"
                        Margin="10,0,0,0" />
 
-
             <Border Grid.Row="3"
                     Margin="10"
                     BorderBrush="#444"
@@ -460,7 +459,7 @@
                                       BlurRadius="8"
                                       ShadowDepth="2" />
                 </Border.Effect>
-                <ScrollViewer Background="#333"
+                <ScrollViewer Background="#444"
                               VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <TextBlock Text="{Binding SelectedExerciseSteps, TargetNullValue='No steps available for this exercise.'}"

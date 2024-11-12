@@ -50,7 +50,7 @@ It integrates with external APIs to fetch relevant workout recommendations and i
     - [Basic Example of how to use PDFsharp](https://craftmypdf.com/blog/5-ways-to-generate-pdfs-with-c-sharp/)
     - [Drawing Images on PDF pages](https://docs.pdfsharp.net/PDFsharp/Topics/Bitmap-Images/Drawing.html)
     - [How to Use XRect](https://docs.pdfsharp.net/PDFsharp/Topics/Start/First-PDF.html?q=xRect)
-
+- [XAML Styling](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/controls/button-styles-and-templates?view=netframeworkdesktop-4.8)
 ## <a name="testing"></a> Testing
 
 ### <a name="unit-testing"></a> Unit Testing
