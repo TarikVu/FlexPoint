@@ -19,10 +19,10 @@ namespace Backend.Tests
                 Success = true,
                 Data = new ExerciseData
                 {
-                    Exercises = new List<Exercise>
-                    {
-                        new Exercise { ExerciseId = "1", Name = "Bicep Curl", Instructions = new List<string> { "Curl your arms." } }
-                    }
+                    Exercises =
+                    [
+                        new() { ExerciseId = "1", Name = "Bicep Curl", Instructions = ["Curl your arms."] }
+                    ]
                 }
             });
         }
@@ -67,7 +67,7 @@ namespace Backend.Tests
                 Success = true,
                 Data = new ExerciseData
                 {
-                    Exercises = new List<Exercise>() // Empty list
+                    Exercises = []  
                 }
             });
 
@@ -92,7 +92,7 @@ namespace Backend.Tests
                 {
                     Exercises = new List<Exercise>
                     {
-                        new Exercise { ExerciseId = null, Name = null, Instructions = new List<string>() }
+                        new Exercise { ExerciseId = null, Name = null, Instructions = [] }
                     }
                 }
             });
@@ -114,13 +114,13 @@ namespace Backend.Tests
         {
             var mockResponseContent = JsonSerializer.Serialize(new ApiResponse
             {
-                Success = false, // API indicates failure
+                Success = false, 
                 Data = new ExerciseData
                 {
-                    Exercises = new List<Exercise>
-                    {
-                        new Exercise { ExerciseId = "1", Name = "Bicep Curl", Instructions = new List<string> { "Curl your arms." } }
-                    }
+                    Exercises =
+                    [
+                        new Exercise { ExerciseId = "1", Name = "Bicep Curl", Instructions = ["Curl your arms."] }
+                    ]
                 }
             });
 
@@ -148,7 +148,7 @@ namespace Backend.Tests
         [Fact]
         public async Task Error_GetExer_InvalidHttpStatus()
         {
-            var mockHandler = CreateMock(HttpStatusCode.NotFound, ""); // 404 Not Found
+            var mockHandler = CreateMock(HttpStatusCode.NotFound, ""); 
             var httpClient = new HttpClient(mockHandler.Object);
             var api = new ExerciseDbApi(httpClient);
 
@@ -158,7 +158,7 @@ namespace Backend.Tests
         [Fact]
         public async Task Error_GetExer_InvalidJsonReturn()
         {
-            var mockResponseContent = "{\"crazySteve\":true}"; // Invalid JSON structure
+            var mockResponseContent = "{\"crazySteve\":true}"; 
             var mockHandler = CreateMock(HttpStatusCode.OK, mockResponseContent);
             var httpClient = new HttpClient(mockHandler.Object);
             var api = new ExerciseDbApi(httpClient);

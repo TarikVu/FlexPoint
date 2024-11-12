@@ -152,14 +152,13 @@ namespace UI.ViewModels
             _exercises = [];
             _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
             _pdfWriter = new PdfWriter();
-
             SaveCommand = new RelayCommand<object>(_ => SaveToPdf(), () => AddedExercises.Count > 0);
             MouseEnterCommand = new RelayCommand<string>(OnMouseEnter);
             MouseLeaveCommand = new RelayCommand<object>(_ => OnMouseLeave());
             AddExerciseCommand = new RelayCommand<object>(_ => AddExercise(), () => SelectedExercise != null);
             RemoveExerciseCommand = new RelayCommand<object>(_ => RemoveExercise(), () => SelectedAddedExercise != null);
             FetchExercisesCommand = new RelayCommand<object>(
-                async (muscle) => await FetchExercisesAsync(muscle as string),
+                async (muscle) => await FetchExercisesAsync((muscle as string)!),
                 () => ProgressVisibility == Visibility.Collapsed
             );
 
@@ -223,7 +222,6 @@ namespace UI.ViewModels
             }
             finally
             {
-                 
                 ProgressVisibility = Visibility.Collapsed;
             }
         }

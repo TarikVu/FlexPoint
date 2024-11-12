@@ -36,7 +36,6 @@ It integrates with external APIs to fetch relevant workout recommendations and i
   - TDD (Test-Driven Development)
 
 ## References & Packages Utilized
-
 - [ExerciseDB API](https://exercisedb-api.vercel.app/docs) 
 - [MVVM Design Patterns](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
 - [MVVM & Data Binding](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
@@ -46,11 +45,11 @@ It integrates with external APIs to fetch relevant workout recommendations and i
   - [Progress Bar](https://stackoverflow.com/questions/3520359/how-to-implement-a-progress-bar-using-the-mvvm-pattern)
 - Assets
   - [Body Diagram](https://www.etsy.com/au/listing/1111381930/editable-muscle-map-anatomy-poster)
-
 - [PDFsharp](https://docs.pdfsharp.net/)
     - [Formatting with PDFsharp](https://docs.pdfsharp.net/MigraDoc/DOM/Document/Formatting.html)
     - [Basic Example of how to use PDFsharp](https://craftmypdf.com/blog/5-ways-to-generate-pdfs-with-c-sharp/)
     - [Drawing Images on PDF pages](https://docs.pdfsharp.net/PDFsharp/Topics/Bitmap-Images/Drawing.html)
+    - [How to Use XRect](https://docs.pdfsharp.net/PDFsharp/Topics/Start/First-PDF.html?q=xRect)
 
 ## <a name="testing"></a> Testing
 
