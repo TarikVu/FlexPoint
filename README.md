@@ -89,6 +89,11 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 - Added Overlay to prevent race conditions
 - Added Place holders for Google API Integration 
 
+11/11
+- Added a PDF Writer 
+- Read Articles on how to use PDFsharp and it's relevant classes
+- Cleaned and refactored code 
+
 
 ## For the Wiki:
 

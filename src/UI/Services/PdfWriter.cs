@@ -4,7 +4,7 @@ using PdfSharp.Drawing;
 using PdfSharp.Pdf; 
 using System.IO; 
 using System.Text;
-
+using System.Globalization;
 namespace UI.Services
 {
     public class PdfWriter
@@ -74,7 +74,7 @@ namespace UI.Services
                 }
 
                 var titleRect = new XRect(_leftMargin, currentPosition, contentWidth, _verticalMargin); 
-                textFormatter.DrawString(exercise.Name, fontTitle, _fontColor, titleRect, _textFormat);
+                textFormatter.DrawString(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(exercise.Name), fontTitle, _fontColor, titleRect, _textFormat);
                 currentPosition += _verticalMargin + 5;
 
                 var stepsTextBuilder = new StringBuilder();
