@@ -22,8 +22,7 @@ namespace Backend
             _validMuscles = configuration.GetSection("ExerciseApi:Muscles").Get<List<string>>() ?? [];
         }
 
-
-        public virtual async Task<List<Exercise>> GetExercisesAsync(string muscle)
+    public virtual async Task<List<Exercise>> GetExercisesAsync(string muscle)
         {
             if (!_validMuscles.Contains(muscle))
             {
@@ -59,6 +58,5 @@ namespace Backend
             }
             return allExercises;
         }
-
     }
 }

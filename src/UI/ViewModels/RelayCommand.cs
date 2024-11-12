@@ -9,16 +9,15 @@ namespace UI.ViewModels
         private readonly Func<T, Task>? _executeAsync;
         private readonly Action<T>? _execute;
         private readonly Func<bool>? _canExecute;
+        public RelayCommand(Func<T, Task> executeAsync, Func<bool>? canExecute = null)
+        {
+            _executeAsync = executeAsync;
+            _canExecute = canExecute;
+        }
 
         public RelayCommand(Action<T> execute, Func<bool>? canExecute = null)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
-        }
-
-        public RelayCommand(Func<T, Task> executeAsync, Func<bool>? canExecute = null)
-        {
-            _executeAsync = executeAsync;
             _canExecute = canExecute;
         }
 
