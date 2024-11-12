@@ -38,6 +38,9 @@ namespace UI.ViewModels
         public ICommand FetchExercisesCommand { get; }
         public ICommand AddExerciseCommand { get; }
         public ICommand RemoveExerciseCommand { get; }
+
+
+        public ICommand ClearAddedExercisesCommand { get; }
         public ICommand SaveCommand { get; }
 
         private Exercise? _selectedExercise;
@@ -139,12 +142,9 @@ namespace UI.ViewModels
                     CurrentSelectedExercise.Instructions.Count == 0)
                     return "";
 
-                string workoutHeader = $"{CurrentSelectedExercise.Name.ToUpper()}\n" +
-                                       $"{new string('-', 40)}\n";
-
                 string steps = string.Join("\n\n", CurrentSelectedExercise.Instructions.Select((step, index) => $"{step}"));
 
-                return $"{workoutHeader}\n{steps}";
+                return $"{steps}";
             }
         }
 
@@ -154,11 +154,15 @@ namespace UI.ViewModels
             _exercises = [];
             _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
             _pdfWriter = new PdfWriter();
-            SaveCommand = new RelayCommand<object>(_ => SaveToPdf(), () => AddedExercises.Count > 0);
-            MouseEnterCommand = new RelayCommand<string>(OnMouseEnter);
-            MouseLeaveCommand = new RelayCommand<object>(_ => OnMouseLeave());
-            AddExerciseCommand = new RelayCommand<object>(_ => AddExercise(), () => SelectedExercise != null);
-            RemoveExerciseCommand = new RelayCommand<object>(_ => RemoveExercise(), () => SelectedAddedExercise != null);
+
+            MouseEnterCommand = new RelayCommand<string>(OnMouseEnter); 
+            MouseLeaveCommand = new RelayCommand(OnMouseLeave);   
+            
+            SaveCommand = new RelayCommand(SaveToPdf, () => AddedExercises.Count > 0);
+            AddExerciseCommand = new RelayCommand(AddExercise, () => SelectedExercise != null);
+            RemoveExerciseCommand = new RelayCommand(RemoveExercise, () => SelectedAddedExercise != null);
+            ClearAddedExercisesCommand = new RelayCommand(ClearAddedExercises);
+
             FetchExercisesCommand = new RelayCommand<object>(
                 async (muscle) => await FetchExercisesAsync((muscle as string)!),
                 () => ProgressVisibility == Visibility.Collapsed
@@ -167,6 +171,7 @@ namespace UI.ViewModels
             AddedExercises.CollectionChanged += (s, e) =>
             {
                 ((RelayCommand<object>)SaveCommand).RaiseCanExecuteChanged();
+
             };
         }
 
@@ -188,7 +193,10 @@ namespace UI.ViewModels
                 SelectedAddedExercise = null;
             }
         }
-
+        private void ClearAddedExercises()
+        {
+            AddedExercises.Clear();
+        }
 
         private void OnMouseEnter(string muscleName)
         {

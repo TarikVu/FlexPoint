@@ -4,59 +4,76 @@ using System.Windows.Input;
 
 namespace UI.ViewModels
 {
+    /// <summary>
+    /// Relays A command to execute based of a condition
+    /// </summary>
+    /// <param name="execute"></param>
+    /// <param name="condition"></param>
+    public class RelayCommand(Action execute, Func<bool>? condition = null) 
+        : RelayCommand<object>(execute, condition)
+    {
+    }
     public class RelayCommand<T> : ICommand
     {
-        private readonly Func<T, Task>? _executeAsync;
-        private readonly Action<T>? _execute;
-        private readonly Func<bool>? _canExecute;
+        private readonly Func<T, Task>? _executeAsync;          
+        private readonly Action<T>? _execute;                 
+
+        private readonly Func<Task>? _executeAsyncNoParam;      
+        private readonly Action? _executeNoParam;        
+
+        private readonly Func<bool>? _executeCondition;              
+
 
         public RelayCommand(Action<T> execute, Func<bool>? canExecute = null)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-            _canExecute = canExecute;
+            _executeCondition = canExecute;
         }
+
 
         public RelayCommand(Func<T, Task> executeAsync, Func<bool>? canExecute = null)
         {
-            _executeAsync = executeAsync;
-            _canExecute = canExecute;
+            _executeAsync = executeAsync ?? throw new ArgumentNullException(nameof(executeAsync));
+            _executeCondition = canExecute;
         }
 
-        public bool CanExecute(object? parameter) => _canExecute?.Invoke() ?? true;
+
+        public RelayCommand(Action execute, Func<bool>? canExecute = null)
+        {
+            _executeNoParam = execute ?? throw new ArgumentNullException(nameof(execute));
+            _executeCondition = canExecute;
+        }
+
+
+        public RelayCommand(Func<Task> executeAsync, Func<bool>? canExecute = null)
+        {
+            _executeAsyncNoParam = executeAsync ?? throw new ArgumentNullException(nameof(executeAsync));
+            _executeCondition = canExecute;
+        }
+
+        public bool CanExecute(object? parameter) => _executeCondition?.Invoke() ?? true;
 
         public async void Execute(object? parameter)
         {
-            if (_executeAsync != null)
+          
+            if (_executeAsync != null && parameter is T castParam)
             {
-                await ExecuteAsyncCommand(parameter);
+                await _executeAsync(castParam);
             }
-            else if (_execute != null)
-            {
-                ExecuteSyncCommand(parameter);
-            }
-        }
 
-        private async Task ExecuteAsyncCommand(object? parameter)
-        {
-            if (parameter is T castParam)
+            else if (_executeAsyncNoParam != null)
             {
-                await _executeAsync!(castParam);
+                await _executeAsyncNoParam();
             }
-            else if (parameter == null && typeof(T) == typeof(object))
+         
+            else if (_execute != null && parameter is T castParamSync)
             {
-                await _executeAsync!(default!);
+                _execute(castParamSync);
             }
-        }
 
-        private void ExecuteSyncCommand(object? parameter)
-        {
-            if (parameter is T castParam)
+            else if (_executeNoParam != null)
             {
-                _execute!(castParam);
-            }
-            else if (parameter == null && typeof(T) == typeof(object))
-            {
-                _execute!(default!);
+                _executeNoParam();
             }
         }
 
