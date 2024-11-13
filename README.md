@@ -1,18 +1,21 @@
+
 # FlexPoint
-A desktop application built with .NET 7 and WPF for helping users select workouts based on muscle group. 
-It integrates with external APIs to fetch relevant workout recommendations and images, providing a personalized user experience for exercise planning.
+A desktop application built with the .NET 8 Framework for helping users select workouts based on muscle group. Workouts are then categorized and printed via a PDF Writer.  
+Flexpiont integrates with external APIs to fetch relevant workout recommendations and images, providing a personalized user experience for exercise planning.
+<p align="center"> <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/flexpoint.png?raw=true" width="50%"> </p>
+
 
 ## Features
-- **Interactive UI**: Clickable muscle groups for pain input. 
+
 - **ExerciseDB API workouts**: Query the API via Specified muscle groups in order to find relevant workouts
 - **Workout Planning**: Users can select from the workouts provided to construct a regimen
+- **PDF Writer**: Users are able to create a pdf file of their selected workouts.
+<p align="center"> <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/flexpoint_example.png?raw=true" width="50%"> </p>
 
 ## Planned Features 
-- Web Application Migration:
-    - Due to this application being developed in WPF with a MVVM focused design, the modularity that MVVM provides make the application more modular and will therefore help aid in switching to a web application
-    - Furthermore, during this stage of development the application is more focused on the core backend functionality of communicating with Open API's and parsing their data.  
-    - Developing in WPF keeps the UI Simple for now as It is not the main focus of the application at this moment.
-
+- Interactive UI: 
+	- Clickable muscle groups for pain input. Utilizing SVG images
+	- [SharpVectors](https://www.nuget.org/packages/SharpVectors)
 - Database Integration: 
     - At this stage in development, There is no database implmented, but **MySQL or PostgreSQL** would be a good choice for a database in the future in order to create user tables and save user workouts.
 - Google Calendar Upload:
@@ -22,36 +25,39 @@ It integrates with external APIs to fetch relevant workout recommendations and i
 ## Tech Stack
 - **Backend**:
   - .NET 8
-  - WPF (Windows Presentation Foundation)
   - External APIs: 
     - ExerciseDB API (for stretches and exercises)
-    - Pixabay API (for images)
 - **Frontend**:
-  - WPF for UI/UX
-  - MVVM Pattern for app structure
-    - Microsoft.Xaml.Behaviors.Wpf: Downloaded for Mouse hover behaviors in MVVM 
+  - WPF for 
+  - MVVM 
+    
 - **Testing**:
   - xUnit for unit testing
   - moq (ver Moq 4.20.72 )
-  - TDD (Test-Driven Development)
+  - Fine Code Coverage
 
 ## References & Packages Utilized
-- [ExerciseDB API](https://exercisedb-api.vercel.app/docs) 
-- [MVVM Design Patterns](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
-- [MVVM & Data Binding](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
-  - [Data Binding](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/?view=netdesktop-8.0)  
-  - [Relay Command & ICommand](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/relaycommand)
-- StackOverflow
-  - [Progress Bar](https://stackoverflow.com/questions/3520359/how-to-implement-a-progress-bar-using-the-mvvm-pattern)
+- [Api Mocking for Unit Tests](https://www.damirscorner.com/blog/posts/20231222-MockingHttpClientInUnitTests.html)
 - Assets
   - [Body Diagram](https://www.etsy.com/au/listing/1111381930/editable-muscle-map-anatomy-poster)
-- [PDFsharp](https://docs.pdfsharp.net/)
+- [ExerciseDB API](https://exercisedb-api.vercel.app/docs) 
+- [MVVM Design Patterns](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
+	- [MVVM & Data Binding](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
+  - [Data Binding](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/?view=netdesktop-8.0)  
+  - [Relay Command & ICommand](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/relaycommand)
+  -  [Using CallMemberName](https://www.c-sharpcorner.com/article/use-of-callermembername-with-inotifypropertychanged-interface-in-wpf-mvvm/)
+ - [PDFsharp](https://docs.pdfsharp.net/)
     - [Formatting with PDFsharp](https://docs.pdfsharp.net/MigraDoc/DOM/Document/Formatting.html)
     - [Basic Example of how to use PDFsharp](https://craftmypdf.com/blog/5-ways-to-generate-pdfs-with-c-sharp/)
     - [Drawing Images on PDF pages](https://docs.pdfsharp.net/PDFsharp/Topics/Bitmap-Images/Drawing.html)
     - [How to Use XRect](https://docs.pdfsharp.net/PDFsharp/Topics/Start/First-PDF.html?q=xRect)
+- StackOverflow
+  - [Progress Bar](https://stackoverflow.com/questions/3520359/how-to-implement-a-progress-bar-using-the-mvvm-pattern)
+
+
 - [XAML Styling](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/controls/button-styles-and-templates?view=netframeworkdesktop-4.8)
-- [Api Mocking for Unit Tests](https://www.damirscorner.com/blog/posts/20231222-MockingHttpClientInUnitTests.html)
+	- [Microsoft.Xaml.Behaviors.Wpf](https://www.nuget.org/packages/microsoft.xaml.behaviors.wpf)
+
 ## <a name="testing"></a> Testing
 
 ### <a name="unit-testing"></a> Unit Testing
@@ -63,7 +69,6 @@ References:
 of using moq for a simulated api testing as well as a way to streamline setting up the fake client.
 - [Official Repo](https://github.com/devlooped/moq?tab=readme-ov-file#readme)
 
-### <a name="integration-testing"></a> Integration Testing
 
 
 ### Dev Log:
@@ -99,20 +104,3 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 - Added Test for PDF Writer
 - Overhauled UI Design
 - Installed Fine Code Coverage for both devices.
-
-## For the Wiki:
-
-
-## Developer Notes 
-### Refresher on RelayCommand and ViewModels for WPF:
-ViewModel is the delegate between the Model and View.  It exposes data from the Model to the View.
-
-### Using Virtual vs Interfaces for testing:
-- [Good StackOverflow Advice](https://stackoverflow.com/questions/691725/mocking-objects-declare-all-methods-as-virtual-or-use-interface)
-
-
-### In-depth with the Code
-RelayCommand<T> leverages ICommand to run async and non-async commands as well as handles command execution.
-
-#### MainViewModel
-- [Using CallMemberName for Cleaner code for OnPropertyChange](https://www.c-sharpcorner.com/article/use-of-callermembername-with-inotifypropertychanged-interface-in-wpf-mvvm/)
