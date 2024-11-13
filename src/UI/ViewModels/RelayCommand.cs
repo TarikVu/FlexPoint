@@ -4,11 +4,7 @@ using System.Windows.Input;
 
 namespace UI.ViewModels
 {
-    /// <summary>
-    /// Relays A command to execute based of a condition
-    /// </summary>
-    /// <param name="execute"></param>
-    /// <param name="condition"></param>
+ 
     public class RelayCommand(Action execute, Func<bool>? condition = null) 
         : RelayCommand<object>(execute, condition)
     {
