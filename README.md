@@ -42,7 +42,7 @@ Flexpiont integrates with external APIs to fetch relevant workout recommendation
   <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/FlexPoint_Arch.PNG?raw=true" width="50%">
 </p>
 
-[API Response](https://exercisedb-api.vercel.app/docs#tag/muscles/GET/api/v1/muscle)sample:
+[API Response](https://exercisedb-api.vercel.app/docs#tag/muscles/GET/api/v1/muscle) sample:
 ```bash
 GET: /api/v1/bodyparts/{bodyPartName}/exercises
 ```
