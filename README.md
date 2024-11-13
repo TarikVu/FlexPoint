@@ -35,6 +35,31 @@ Flexpiont integrates with external APIs to fetch relevant workout recommendation
   - xUnit for unit testing
   - moq (ver Moq 4.20.72 )
   - Fine Code Coverage
+ 
+## Architecture
+
+<p align="center">
+  <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/FlexPoint_Arch.PNG?raw=true" width="50%">
+</p>
+
+[API Response](https://exercisedb-api.vercel.app/docs#tag/muscles/GET/api/v1/muscles) sample:
+```bash
+{
+  "success": true,
+  "data": [
+    {
+      "exerciseId": "…",
+      "name": "…",
+      "gifUrl": "…",
+      "targetMuscles":  ],
+      "bodyParts": [],
+      "equipments": [],
+      "secondaryMuscles": [],
+      "instructions": []
+    }
+  ]
+}
+```
 
 ## References & Packages Utilized
 - [Api Mocking for Unit Tests](https://www.damirscorner.com/blog/posts/20231222-MockingHttpClientInUnitTests.html)
