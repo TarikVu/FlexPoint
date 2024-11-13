@@ -100,7 +100,7 @@ namespace UI.Services
         private double CalculateRequiredHeight(Exercise exercise)
         {
             double stepsHeight = exercise.Instructions.Count * _lineHeight;
-            return _verticalMargin + stepsHeight + _verticalMargin;
+            return _verticalMargin + stepsHeight;
         }
 
         private static bool IsNewPageRequired(double currentPosition, double requiredHeight, PdfPage page)

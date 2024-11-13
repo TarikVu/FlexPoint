@@ -33,12 +33,11 @@ namespace UI.ViewModels
         private Visibility _progressVisibility = Visibility.Collapsed;
         private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
 
-        public ICommand MouseEnterCommand { get; }
+        public ICommand MouseHoverCommand { get; }
         public ICommand MouseLeaveCommand { get; }
         public ICommand FetchExercisesCommand { get; }
         public ICommand AddExerciseCommand { get; }
         public ICommand RemoveExerciseCommand { get; }
-
 
         public ICommand ClearAddedExercisesCommand { get; }
         public ICommand SaveCommand { get; }
@@ -155,7 +154,7 @@ namespace UI.ViewModels
             _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
             _pdfWriter = new PdfWriter();
 
-            MouseEnterCommand = new RelayCommand<string>(OnMouseEnter); 
+            MouseHoverCommand = new RelayCommand<string>(OnMouseEnter); 
             MouseLeaveCommand = new RelayCommand(OnMouseLeave);   
             
             SaveCommand = new RelayCommand(SaveToPdf, () => AddedExercises.Count > 0);

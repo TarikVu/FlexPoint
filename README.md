@@ -71,19 +71,23 @@ GET: /api/v1/bodyparts/{bodyPartName}/exercises
 
 ## References & Packages Utilized
 - [Api Mocking for Unit Tests](https://www.damirscorner.com/blog/posts/20231222-MockingHttpClientInUnitTests.html)
+
 - Assets
   - [Body Diagram](https://www.etsy.com/au/listing/1111381930/editable-muscle-map-anatomy-poster)
+  
 - [ExerciseDB API](https://exercisedb-api.vercel.app/docs) 
-- [MVVM Design Patterns](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
-	- [MVVM & Data Binding](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern)
+
+- [MVVM Design Patterns](https://learn.microsoft.com/en-us/archive/msdn-magazine/2009/february/patterns-wpf-apps-with-the-model-view-viewmodel-design-pattern) 
   - [Data Binding](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/data/?view=netdesktop-8.0)  
   - [Relay Command & ICommand](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/relaycommand)
   -  [Using CallMemberName](https://www.c-sharpcorner.com/article/use-of-callermembername-with-inotifypropertychanged-interface-in-wpf-mvvm/)
+    
  - [PDFsharp](https://docs.pdfsharp.net/)
     - [Formatting with PDFsharp](https://docs.pdfsharp.net/MigraDoc/DOM/Document/Formatting.html)
     - [Basic Example of how to use PDFsharp](https://craftmypdf.com/blog/5-ways-to-generate-pdfs-with-c-sharp/)
     - [Drawing Images on PDF pages](https://docs.pdfsharp.net/PDFsharp/Topics/Bitmap-Images/Drawing.html)
     - [How to Use XRect](https://docs.pdfsharp.net/PDFsharp/Topics/Start/First-PDF.html?q=xRect)
+    
 - StackOverflow
   - [Progress Bar](https://stackoverflow.com/questions/3520359/how-to-implement-a-progress-bar-using-the-mvvm-pattern)
 

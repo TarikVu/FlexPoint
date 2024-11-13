@@ -177,7 +177,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="abs" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -191,7 +191,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="abductors" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -205,7 +205,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="biceps" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -219,7 +219,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="calves" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -233,7 +233,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="delts" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -247,7 +247,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="forearms" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -261,7 +261,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="glutes" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -275,7 +275,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="hamstrings" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -289,7 +289,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="lats" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -303,7 +303,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="pectorals" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -317,7 +317,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="quads" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -331,7 +331,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="traps" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
@@ -345,7 +345,7 @@
                         Style="{StaticResource ButtonStyle}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
-                            <i:InvokeCommandAction Command="{Binding MouseEnterCommand}"
+                            <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
                                                    CommandParameter="triceps" />
                         </i:EventTrigger>
                         <i:EventTrigger EventName="MouseLeave">
