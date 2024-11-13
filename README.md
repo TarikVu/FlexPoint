@@ -2,7 +2,7 @@
 # FlexPoint
 A desktop application built with the .NET 8 Framework for helping users select workouts based on muscle group. Workouts are then categorized and printed via a PDF Writer.  
 Flexpiont integrates with external APIs to fetch relevant workout recommendations and images, providing a personalized user experience for exercise planning.
-<p align="center"> <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/flexpoint.png?raw=true" width="50%"> </p>
+<p align="center"> <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/flexpoint.png?raw=true" width="75%"> </p>
 
 
 ## Features
@@ -10,7 +10,7 @@ Flexpiont integrates with external APIs to fetch relevant workout recommendation
 - **ExerciseDB API workouts**: Query the API via Specified muscle groups in order to find relevant workouts
 - **Workout Planning**: Users can select from the workouts provided to construct a regimen
 - **PDF Writer**: Users are able to create a pdf file of their selected workouts.
-<p align="center"> <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/flexpoint_example.png?raw=true" width="50%"> </p>
+<p align="center"> <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/flexpoint_example.png?raw=true" width="75%"> </p>
 
 ## Planned Features 
 - Interactive UI: 
