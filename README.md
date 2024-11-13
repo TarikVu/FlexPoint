@@ -51,7 +51,7 @@ Flexpiont integrates with external APIs to fetch relevant workout recommendation
       "exerciseId": "…",
       "name": "…",
       "gifUrl": "…",
-      "targetMuscles":  ],
+      "targetMuscles": [],
       "bodyParts": [],
       "equipments": [],
       "secondaryMuscles": [],
