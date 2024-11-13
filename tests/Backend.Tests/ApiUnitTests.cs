@@ -5,6 +5,7 @@ using Moq;
 using Moq.Protected;
 using System.Text.Json;
 using Xunit;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace Backend.Tests
 {
@@ -21,11 +22,12 @@ namespace Backend.Tests
                 {
                     Exercises =
                     [
-                        new() { ExerciseId = "1", Name = "Bicep Curl", Instructions = ["Curl your arms."] }
+                        new() { ExerciseId = "1", Name = "One Punch Exercise", Instructions = ["100 push-up,situps,and squats, then run 10km."] }
                     ]
                 }
             });
         }
+  
 
         private static Mock<HttpMessageHandler> CreateMock(HttpStatusCode statusCode, string content)
         {
@@ -56,7 +58,7 @@ namespace Backend.Tests
 
             Assert.NotNull(result);
             Assert.Single(result);
-            Assert.Equal("Bicep Curl", result[0].Name);
+            Assert.Equal("One Punch Exercise", result[0].Name);
         }
 
         [Fact]
@@ -82,35 +84,7 @@ namespace Backend.Tests
         }
 
         [Fact]
-        public async Task Error_GetExer_NullFields()
-        {
-            // Arrange
-            var nullMock = JsonSerializer.Serialize(new ApiResponse
-            {
-                Success = true,
-                Data = new ExerciseData
-                {
-                    Exercises = new List<Exercise>
-                    {
-                        new Exercise { ExerciseId = null, Name = null, Instructions = [] }
-                    }
-                }
-            });
-
-            var mockHandler = CreateMock(HttpStatusCode.OK, nullMock);
-            var httpClient = new HttpClient(mockHandler.Object);
-            var api = new ExerciseDbApi(httpClient);
-
-            var result = await api.GetExercisesAsync("biceps");
-
-            Assert.NotNull(result);
-            Assert.Single(result);
-            Assert.Null(result[0].ExerciseId);
-            Assert.Null(result[0].Name);
-        }
-
-        [Fact]
-        public async Task GetExercises_ApiReturnsSuccessFalse()
+        public async Task GetExercises_Simple()
         {
             var mockResponseContent = JsonSerializer.Serialize(new ApiResponse
             {

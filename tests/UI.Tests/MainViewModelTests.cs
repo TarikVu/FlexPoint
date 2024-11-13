@@ -6,11 +6,13 @@ using Backend.Models;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace UI.Tests
 {
     public class MainViewModelTests
     {
+        
         [Fact]
         public void FetchExer_Initialized()
         {
@@ -166,5 +168,6 @@ namespace UI.Tests
 
             Assert.Equal("", viewModel.SelectedExerciseSteps);
         }
+
     }
 }

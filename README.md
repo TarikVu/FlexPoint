@@ -51,6 +51,7 @@ It integrates with external APIs to fetch relevant workout recommendations and i
     - [Drawing Images on PDF pages](https://docs.pdfsharp.net/PDFsharp/Topics/Bitmap-Images/Drawing.html)
     - [How to Use XRect](https://docs.pdfsharp.net/PDFsharp/Topics/Start/First-PDF.html?q=xRect)
 - [XAML Styling](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/controls/button-styles-and-templates?view=netframeworkdesktop-4.8)
+- [Api Mocking for Unit Tests](https://www.damirscorner.com/blog/posts/20231222-MockingHttpClientInUnitTests.html)
 ## <a name="testing"></a> Testing
 
 ### <a name="unit-testing"></a> Unit Testing
@@ -94,6 +95,10 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 - Read Articles on how to use PDFsharp and it's relevant classes
 - Cleaned and refactored code 
 
+11/12
+- Added Test for PDF Writer
+- Overhauled UI Design
+- Installed Fine Code Coverage for both devices.
 
 ## For the Wiki:
 
