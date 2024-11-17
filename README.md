@@ -14,7 +14,7 @@ Flexpiont integrates with external APIs to fetch relevant workout recommendation
 
 ## Planned Features 
 - Interactive UI: 
-	- Clickable muscle groups for pain input. Utilizing SVG images
+	- Clickable muscle groups for muscle group selection. Utilizing SVG images
 	- [SharpVectors](https://www.nuget.org/packages/SharpVectors)
 - Database Integration: 
     - At this stage in development, There is no database implmented, but **MySQL or PostgreSQL** would be a good choice for a database in the future in order to create user tables and save user workouts.
