@@ -3,15 +3,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Backend;
 using Backend.Models;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using System.IO;
-using PdfSharp.Drawing.Layout;
 using Microsoft.Win32;
 using UI.Services;
 
@@ -32,6 +27,7 @@ namespace UI.ViewModels
         private int _currentProgress;
         private Visibility _progressVisibility = Visibility.Collapsed;
         private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
+        private string _currentMuscle = "base";
 
         public ICommand MouseHoverCommand { get; }
         public ICommand MouseLeaveCommand { get; }
@@ -204,12 +200,13 @@ namespace UI.ViewModels
 
         private void OnMouseLeave()
         {
-            HoveredImageSource = "pack://application:,,,/Assets/base.png";
+            HoveredImageSource = $"pack://application:,,,/Assets/{_currentMuscle}.png";
         }
 
         private async Task FetchExercisesAsync(string muscle)
         { 
             CurrentProgress = 0;
+            _currentMuscle = muscle;
             ProgressVisibility = Visibility.Visible;
             var progress = new Progress<int>(value => CurrentProgress = value);
 
