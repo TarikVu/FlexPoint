@@ -3,15 +3,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Backend;
 using Backend.Models;
-using PdfSharp.Drawing;
-using PdfSharp.Pdf;
-using System.IO;
-using PdfSharp.Drawing.Layout;
 using Microsoft.Win32;
 using UI.Services;
 
@@ -32,13 +27,13 @@ namespace UI.ViewModels
         private int _currentProgress;
         private Visibility _progressVisibility = Visibility.Collapsed;
         private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
+        private string _currentMuscle = "base";
 
         public ICommand MouseHoverCommand { get; }
         public ICommand MouseLeaveCommand { get; }
         public ICommand FetchExercisesCommand { get; }
         public ICommand AddExerciseCommand { get; }
         public ICommand RemoveExerciseCommand { get; }
-
         public ICommand ClearAddedExercisesCommand { get; }
         public ICommand SaveCommand { get; }
 
@@ -103,12 +98,7 @@ namespace UI.ViewModels
                 {
                     _selectedExercise = value;
                     _selectedAddedExercise = null;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(CurrentSelectedExercise));
-                    OnPropertyChanged(nameof(SelectedAddedExercise));
-                    OnPropertyChanged(nameof(SelectedExerciseSteps));
-                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged();
-                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged();
+                    SwapSelection();
                 }
             }
         }
@@ -121,13 +111,8 @@ namespace UI.ViewModels
                 if (_selectedAddedExercise != value)
                 {
                     _selectedAddedExercise = value;
-                    _selectedExercise = null; 
-                    OnPropertyChanged(); 
-                    OnPropertyChanged(nameof(CurrentSelectedExercise));
-                    OnPropertyChanged(nameof(SelectedExercise));
-                    OnPropertyChanged(nameof(SelectedExerciseSteps)); 
-                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged(); 
-                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged(); 
+                    _selectedExercise = null;
+                    SwapSelection();
                 }
             }
         }
@@ -147,16 +132,15 @@ namespace UI.ViewModels
             }
         }
 
-
         public MainViewModel(ExerciseDbApi mockTestApi)
         {
             _exercises = [];
             _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
             _pdfWriter = new PdfWriter();
 
-            MouseHoverCommand = new RelayCommand<string>(OnMouseEnter); 
-            MouseLeaveCommand = new RelayCommand(OnMouseLeave);   
-            
+            MouseHoverCommand = new RelayCommand<string>(OnMouseHover);
+            MouseLeaveCommand = new RelayCommand(OnMouseLeave);
+
             SaveCommand = new RelayCommand(SaveToPdf, () => AddedExercises.Count > 0);
             AddExerciseCommand = new RelayCommand(AddExercise, () => SelectedExercise != null);
             RemoveExerciseCommand = new RelayCommand(RemoveExercise, () => SelectedAddedExercise != null);
@@ -169,47 +153,17 @@ namespace UI.ViewModels
 
             AddedExercises.CollectionChanged += (s, e) =>
             {
-                ((RelayCommand<object>)SaveCommand).RaiseCanExecuteChanged();
-
+                RelayChanged(SaveCommand);
             };
         }
 
+
         public MainViewModel() : this(new ExerciseDbApi(new HttpClient())) { }
 
-        private void AddExercise()
-        {
-            if (SelectedExercise == null || AddedExercises.Any(ex => ex.ExerciseId == SelectedExercise.ExerciseId))
-                return;
-
-            AddedExercises.Add(SelectedExercise);
-        }
-
-        private void RemoveExercise()
-        {
-            if (SelectedAddedExercise != null)
-            {
-                AddedExercises.Remove(SelectedAddedExercise);
-                SelectedAddedExercise = null;
-            }
-        }
-        private void ClearAddedExercises()
-        {
-            AddedExercises.Clear();
-        }
-
-        private void OnMouseEnter(string muscleName)
-        {
-            HoveredImageSource = $"pack://application:,,,/Assets/{muscleName}.png";
-        }
-
-        private void OnMouseLeave()
-        {
-            HoveredImageSource = "pack://application:,,,/Assets/base.png";
-        }
-
         private async Task FetchExercisesAsync(string muscle)
-        { 
+        {
             CurrentProgress = 0;
+            _currentMuscle = muscle;
             ProgressVisibility = Visibility.Visible;
             var progress = new Progress<int>(value => CurrentProgress = value);
 
@@ -235,6 +189,7 @@ namespace UI.ViewModels
                 ProgressVisibility = Visibility.Collapsed;
             }
         }
+
         public void SaveToPdf()
         {
             SaveFileDialog saveFileDialog = new()
@@ -249,6 +204,52 @@ namespace UI.ViewModels
                 string filename = saveFileDialog.FileName;
                 _pdfWriter.Save(filename, AddedExercises);
             }
+        }
+
+        private void SwapSelection()
+        {
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(CurrentSelectedExercise));
+            OnPropertyChanged(nameof(SelectedExercise));
+            OnPropertyChanged(nameof(SelectedExerciseSteps));
+            RelayChanged(AddExerciseCommand);
+            RelayChanged(RemoveExerciseCommand);
+        }
+
+        private static void RelayChanged(ICommand command)
+        {
+            ((RelayCommand<object>)command).RaiseCanExecuteChanged();
+        }
+
+        private void AddExercise()
+        {
+            if (SelectedExercise == null || AddedExercises.Any(ex => ex.ExerciseId == SelectedExercise.ExerciseId))
+                return;
+
+            AddedExercises.Add(SelectedExercise);
+        }
+
+        private void RemoveExercise()
+        {
+            if (SelectedAddedExercise != null)
+            {
+                AddedExercises.Remove(SelectedAddedExercise);
+                SelectedAddedExercise = null;
+            }
+        }
+        private void ClearAddedExercises()
+        {
+            AddedExercises.Clear();
+        }
+
+        private void OnMouseHover(string muscleName)
+        {
+            HoveredImageSource = $"pack://application:,,,/Assets/{muscleName}.png";
+        }
+
+        private void OnMouseLeave()
+        {
+            HoveredImageSource = $"pack://application:,,,/Assets/{_currentMuscle}.png";
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
