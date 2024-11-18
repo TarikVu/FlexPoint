@@ -99,12 +99,7 @@ namespace UI.ViewModels
                 {
                     _selectedExercise = value;
                     _selectedAddedExercise = null;
-                    OnPropertyChanged();
-                    OnPropertyChanged(nameof(CurrentSelectedExercise));
-                    OnPropertyChanged(nameof(SelectedAddedExercise));
-                    OnPropertyChanged(nameof(SelectedExerciseSteps));
-                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged();
-                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged();
+                    SwapSelection();
                 }
             }
         }
@@ -118,12 +113,7 @@ namespace UI.ViewModels
                 {
                     _selectedAddedExercise = value;
                     _selectedExercise = null; 
-                    OnPropertyChanged(); 
-                    OnPropertyChanged(nameof(CurrentSelectedExercise));
-                    OnPropertyChanged(nameof(SelectedExercise));
-                    OnPropertyChanged(nameof(SelectedExerciseSteps)); 
-                    ((RelayCommand<object>)AddExerciseCommand).RaiseCanExecuteChanged(); 
-                    ((RelayCommand<object>)RemoveExerciseCommand).RaiseCanExecuteChanged(); 
+                    SwapSelection();
                 }
             }
         }
@@ -142,7 +132,6 @@ namespace UI.ViewModels
                 return $"{steps}";
             }
         }
-
 
         public MainViewModel(ExerciseDbApi mockTestApi)
         {
@@ -165,12 +154,27 @@ namespace UI.ViewModels
 
             AddedExercises.CollectionChanged += (s, e) =>
             {
-                ((RelayCommand<object>)SaveCommand).RaiseCanExecuteChanged();
-
+                RelayChanged(SaveCommand);
             };
         }
+       
 
         public MainViewModel() : this(new ExerciseDbApi(new HttpClient())) { }
+
+        private void SwapSelection()
+        {
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(CurrentSelectedExercise));
+            OnPropertyChanged(nameof(SelectedExercise));
+            OnPropertyChanged(nameof(SelectedExerciseSteps));
+            RelayChanged(AddExerciseCommand);
+            RelayChanged(RemoveExerciseCommand);
+        }
+
+        private static void RelayChanged(ICommand command)
+        {
+            ((RelayCommand<object>)command).RaiseCanExecuteChanged();
+        }
 
         private void AddExercise()
         {
