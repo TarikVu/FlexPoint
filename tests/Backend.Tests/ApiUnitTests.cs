@@ -126,7 +126,7 @@ namespace Backend.Tests
             var httpClient = new HttpClient(mockHandler.Object);
             var api = new ExerciseDbApi(httpClient);
 
-            await Assert.ThrowsAsync<HttpRequestException>(() => api.GetExercisesAsync("biceps"));
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
         }
 
         [Fact]
@@ -137,17 +137,94 @@ namespace Backend.Tests
             var httpClient = new HttpClient(mockHandler.Object);
             var api = new ExerciseDbApi(httpClient);
 
-            await Assert.ThrowsAsync<JsonException>(() => api.GetExercisesAsync("biceps"));
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
         }
 
         [Fact]
-        public async Task Error_GetExercise_Server500()
+        public async Task Error400_GetExercise()
+        {
+            var mockHandler = CreateMock(HttpStatusCode.BadRequest, "");
+            var httpClient = new HttpClient(mockHandler.Object);
+            var api = new ExerciseDbApi(httpClient);
+
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
+        }
+
+        [Fact]
+        public async Task Error401_GetExercise()
+        {
+            var mockHandler = CreateMock(HttpStatusCode.Unauthorized, "");
+            var httpClient = new HttpClient(mockHandler.Object);
+            var api = new ExerciseDbApi(httpClient);
+
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
+        }
+
+        [Fact]
+        public async Task Error403_GetExercise()
+        {
+            var mockHandler = CreateMock(HttpStatusCode.Forbidden, "");
+            var httpClient = new HttpClient(mockHandler.Object);
+            var api = new ExerciseDbApi(httpClient);
+
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
+        }
+
+        [Fact]
+        public async Task Error404_GetExercise()
+        {
+            var mockHandler = CreateMock(HttpStatusCode.NotFound, "");
+            var httpClient = new HttpClient(mockHandler.Object);
+            var api = new ExerciseDbApi(httpClient);
+
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
+        }
+
+        [Fact]
+        public async Task Error429_GetExercise()
+        {
+            var mockHandler = CreateMock(HttpStatusCode.TooManyRequests, "");
+            var httpClient = new HttpClient(mockHandler.Object);
+            var api = new ExerciseDbApi(httpClient);
+
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
+        }
+
+        [Fact]
+        public async Task Error500_GetExercise()
         {
             var mockHandler = CreateMock(HttpStatusCode.InternalServerError, "");
             var httpClient = new HttpClient(mockHandler.Object);
             var api = new ExerciseDbApi(httpClient);
 
-            await Assert.ThrowsAsync<HttpRequestException>(() => api.GetExercisesAsync("biceps"));
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
+        }
+        [Fact]
+        public async Task Error502_GetExercise()
+        {
+            var mockHandler = CreateMock(HttpStatusCode.BadGateway, "");
+            var httpClient = new HttpClient(mockHandler.Object);
+            var api = new ExerciseDbApi(httpClient);
+
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
+        }
+        [Fact]
+        public async Task Error503_GetExercise()
+        {
+            var mockHandler = CreateMock(HttpStatusCode.ServiceUnavailable, "");
+            var httpClient = new HttpClient(mockHandler.Object);
+            var api = new ExerciseDbApi(httpClient);
+
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
+        }
+        [Fact]
+        public async Task Error504_GetExercise()
+        {
+            var mockHandler = CreateMock(HttpStatusCode.GatewayTimeout, "");
+            var httpClient = new HttpClient(mockHandler.Object);
+            var api = new ExerciseDbApi(httpClient);
+
+            await Assert.ThrowsAsync<Exception>(() => api.GetExercisesAsync("biceps"));
         }
     }
 }

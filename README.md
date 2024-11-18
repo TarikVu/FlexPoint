@@ -100,6 +100,22 @@ GET: /api/v1/bodyparts/{bodyPartName}/exercises
 ### <a name="unit-testing"></a> Unit Testing
 To isolate getting a json from the api, we first utilize Moq to simulate an api response for unit testing.
 This allows us to simulate the different errors and avoid relying on any usage restrictions.
+#### HttpRequestException
+The following HttpRequestException codes are caught with our api call, upon an unsucessful api call the user interface reports
+the corresponding error.
+```bash
+Client Errors (4xx)
+- 400 Bad Request – Invalid request.
+- 401 Unauthorized – Authentication required.
+- 403 Forbidden – Access denied.
+- 404 Not Found – Resource not found.
+- 429 Too Many Requests – Rate limit exceeded.
+Server Errors (5xx):
+- 500 Internal Server Error – General server-side failure.
+- 502 Bad Gateway – Server acting as a gateway/proxy received an invalid response.
+- 503 Service Unavailable – Server is temporarily unavailable.
+- 504 Gateway Timeout – Server acting as a gateway/proxy timed out.
+```
 
 References:
 - This [Example blog](https://canro91.github.io/2022/12/01/TestingHttpClient/) shows a good example

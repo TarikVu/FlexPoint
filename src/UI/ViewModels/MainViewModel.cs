@@ -227,7 +227,8 @@ namespace UI.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error fetching exercises: {ex.Message}");
+                Console.WriteLine(ex.Message);
+                MessageBox.Show(ex.Message);
             }
             finally
             {
