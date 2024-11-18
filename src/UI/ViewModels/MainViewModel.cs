@@ -34,7 +34,6 @@ namespace UI.ViewModels
         public ICommand FetchExercisesCommand { get; }
         public ICommand AddExerciseCommand { get; }
         public ICommand RemoveExerciseCommand { get; }
-
         public ICommand ClearAddedExercisesCommand { get; }
         public ICommand SaveCommand { get; }
 
@@ -112,7 +111,7 @@ namespace UI.ViewModels
                 if (_selectedAddedExercise != value)
                 {
                     _selectedAddedExercise = value;
-                    _selectedExercise = null; 
+                    _selectedExercise = null;
                     SwapSelection();
                 }
             }
@@ -139,9 +138,9 @@ namespace UI.ViewModels
             _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
             _pdfWriter = new PdfWriter();
 
-            MouseHoverCommand = new RelayCommand<string>(OnMouseEnter); 
-            MouseLeaveCommand = new RelayCommand(OnMouseLeave);   
-            
+            MouseHoverCommand = new RelayCommand<string>(OnMouseHover);
+            MouseLeaveCommand = new RelayCommand(OnMouseLeave);
+
             SaveCommand = new RelayCommand(SaveToPdf, () => AddedExercises.Count > 0);
             AddExerciseCommand = new RelayCommand(AddExercise, () => SelectedExercise != null);
             RemoveExerciseCommand = new RelayCommand(RemoveExercise, () => SelectedAddedExercise != null);
@@ -157,9 +156,55 @@ namespace UI.ViewModels
                 RelayChanged(SaveCommand);
             };
         }
-       
+
 
         public MainViewModel() : this(new ExerciseDbApi(new HttpClient())) { }
+
+        private async Task FetchExercisesAsync(string muscle)
+        {
+            CurrentProgress = 0;
+            _currentMuscle = muscle;
+            ProgressVisibility = Visibility.Visible;
+            var progress = new Progress<int>(value => CurrentProgress = value);
+
+            try
+            {
+                Exercises.Clear();
+                var exerciseList = await _exerciseDbApi.GetExercisesAsync(muscle);
+                int count = exerciseList.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    ((IProgress<int>)progress).Report((i * 100) / count);
+                    await Task.Delay(10);
+                    Exercises.Add(exerciseList[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                ProgressVisibility = Visibility.Collapsed;
+            }
+        }
+
+        public void SaveToPdf()
+        {
+            SaveFileDialog saveFileDialog = new()
+            {
+                Filter = "PDF files (*.pdf)|*.pdf",
+                FileName = "Exercises.pdf",
+                DefaultExt = ".pdf"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string filename = saveFileDialog.FileName;
+                _pdfWriter.Save(filename, AddedExercises);
+            }
+        }
 
         private void SwapSelection()
         {
@@ -197,7 +242,7 @@ namespace UI.ViewModels
             AddedExercises.Clear();
         }
 
-        private void OnMouseEnter(string muscleName)
+        private void OnMouseHover(string muscleName)
         {
             HoveredImageSource = $"pack://application:,,,/Assets/{muscleName}.png";
         }
@@ -205,51 +250,6 @@ namespace UI.ViewModels
         private void OnMouseLeave()
         {
             HoveredImageSource = $"pack://application:,,,/Assets/{_currentMuscle}.png";
-        }
-
-        private async Task FetchExercisesAsync(string muscle)
-        { 
-            CurrentProgress = 0;
-            _currentMuscle = muscle;
-            ProgressVisibility = Visibility.Visible;
-            var progress = new Progress<int>(value => CurrentProgress = value);
-
-            try
-            {
-                Exercises.Clear();
-                var exerciseList = await _exerciseDbApi.GetExercisesAsync(muscle);
-                int count = exerciseList.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    ((IProgress<int>)progress).Report((i * 100) / count);
-                    await Task.Delay(10);
-                    Exercises.Add(exerciseList[i]);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                ProgressVisibility = Visibility.Collapsed;
-            }
-        }
-        public void SaveToPdf()
-        {
-            SaveFileDialog saveFileDialog = new()
-            {
-                Filter = "PDF files (*.pdf)|*.pdf",
-                FileName = "Exercises.pdf",
-                DefaultExt = ".pdf"
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                string filename = saveFileDialog.FileName;
-                _pdfWriter.Save(filename, AddedExercises);
-            }
         }
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)

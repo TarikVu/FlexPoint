@@ -11,132 +11,7 @@
     <Window.DataContext>
         <local:MainViewModel />
     </Window.DataContext>
-    <Window.Resources>
-        <Style x:Key="ButtonStyle"
-               TargetType="Button">
-            <Setter Property="Width"
-                    Value="100" />
-            <Setter Property="Height"
-                    Value="30" />
-            <Setter Property="Margin"
-                    Value="5" />
-            <Setter Property="Background"
-                    Value="#608BC1" />
-            <Setter Property="Foreground"
-                    Value="#FAF7F0" />
-            <Setter Property="FontSize"
-                    Value="14" />
-            <Setter Property="FontWeight"
-                    Value="Bold" />
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black"
-                                      BlurRadius="5"
-                                      ShadowDepth="1" />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="5">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver"
-                         Value="True">
-                    <Setter Property="Background"
-                            Value="#7FA1C3" />
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect Color="Black"
-                                              BlurRadius="8"
-                                              ShadowDepth="2" />
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="ListBoxStyle"
-               TargetType="ListBox">
-            <Setter Property="Background"
-                    Value="#424242" />
-            <Setter Property="Foreground"
-                    Value="White" />
-            <Setter Property="BorderBrush"
-                    Value="#555" />
-            <Setter Property="BorderThickness"
-                    Value="1" />
-            <Setter Property="Padding"
-                    Value="5" />
-            <Setter Property="FontSize"
-                    Value="14" />
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="Black"
-                                      BlurRadius="8"
-                                      ShadowDepth="2" />
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBox">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="5">
-                            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <ItemsPresenter />
-                            </ScrollViewer>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="ListBoxItemStyle"
-               TargetType="ListBoxItem">
-            <Setter Property="Foreground"
-                    Value="White" />
-            <Setter Property="Background"
-                    Value="#444" />
-            <Setter Property="HorizontalContentAlignment"
-                    Value="Stretch" />
-            <Setter Property="VerticalContentAlignment"
-                    Value="Center" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Border Background="{TemplateBinding Background}"
-                                Padding="5">
-                            <TextBlock Text="{Binding Name}"
-                                       TextWrapping="Wrap"
-                                       Foreground="White"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Center" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver"
-                         Value="True">
-                    <Setter Property="Background"
-                            Value="#222" />
-                </Trigger>
-                <Trigger Property="IsSelected"
-                         Value="True">
-                    <Setter Property="Background"
-                            Value="#222" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
 
-
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -164,7 +39,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-
             </Grid.RowDefinitions>
 
             <WrapPanel Grid.Row="0"
@@ -174,7 +48,7 @@
                 <Button Content="Abs"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="abs"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -188,7 +62,7 @@
                 <Button Content="Abductors"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="abductors"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -202,7 +76,7 @@
                 <Button Content="Biceps"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="biceps"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -216,7 +90,7 @@
                 <Button Content="Calves"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="calves"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -230,7 +104,7 @@
                 <Button Content="Delts"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="delts"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -244,7 +118,7 @@
                 <Button Content="Forearms"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="forearms"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -258,7 +132,7 @@
                 <Button Content="Glutes"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="glutes"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -272,7 +146,7 @@
                 <Button Content="Hamstrings"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="hamstrings"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -286,7 +160,7 @@
                 <Button Content="Lats"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="lats"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -300,7 +174,7 @@
                 <Button Content="Pectorals"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="pectorals"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -314,7 +188,7 @@
                 <Button Content="Quads"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="quads"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -328,7 +202,7 @@
                 <Button Content="Traps"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="traps"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -342,7 +216,7 @@
                 <Button Content="Triceps"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="triceps"
-                        Style="{StaticResource ButtonStyle}">
+                        Style="{StaticResource MuscleButton}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseEnter">
                             <i:InvokeCommandAction Command="{Binding MouseHoverCommand}"
@@ -356,16 +230,15 @@
             </WrapPanel>
 
             <Button Grid.Row="1"
-                    Style="{StaticResource ButtonStyle}"
-                    Background="#133E87"
                     Content="Add Exercise"
+                    Style="{StaticResource CommandButton}"
+                    Background="{StaticResource CommandButtonBlue}"
                     Command="{Binding AddExerciseCommand}"
                     HorizontalAlignment="Center"
                     Margin="5"
                     Padding="5"
                     Width="150"
                     FontSize="14" />
-
 
             <TextBlock Grid.Row="2"
                        Text="Exercises"
@@ -374,7 +247,6 @@
                        FontWeight="Bold"
                        Foreground="White"
                        Margin="0,0,0,5" />
-
 
             <ListBox Grid.Row="3"
                      Style="{StaticResource ListBoxStyle}"
@@ -404,20 +276,20 @@
                             HorizontalAlignment="Center">
                     <Button Content="Clear"
                             Width="75"
-                            Background="#982B1C"
+                            Background="{StaticResource CommandButtonRed}"
                             Command="{Binding ClearAddedExercisesCommand}"
-                            Style="{StaticResource ButtonStyle}"
+                            Style="{StaticResource CommandButton}"
                             Margin="5" />
                     <Button Content="Remove"
-                            Background="#982B1C"
+                            Background="{StaticResource CommandButtonRed}"
                             Width="75"
                             Command="{Binding RemoveExerciseCommand}"
-                            Style="{StaticResource ButtonStyle}"
+                            Style="{StaticResource CommandButton}"
                             Margin="5" />
                     <Button Content="Save to PDF"
-                            Background="#133E87"
+                            Background="{StaticResource CommandButtonBlue}"
                             Command="{Binding SaveCommand}"
-                            Style="{StaticResource ButtonStyle}"
+                            Style="{StaticResource CommandButton}"
                             Margin="5" />
 
                 </StackPanel>
@@ -438,7 +310,6 @@
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          HorizontalAlignment="Stretch" />
             </StackPanel>
-
 
             <TextBlock Grid.Row="1"
                        Text="{Binding CurrentSelectedExercise.Name}"
