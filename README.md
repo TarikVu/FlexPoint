@@ -157,3 +157,12 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 - Added Test for PDF Writer
 - Overhauled UI Design
 - Installed Fine Code Coverage for both devices.
+
+11/18
+- Added Tests for HTPPClient
+- Catching errors upon bad requests to API
+- Made Wrapper method for RelayCommand Logic
+
+11/20
+- Redesigned UI for DB Integration
+- Beautified XAML wtih Extensions
