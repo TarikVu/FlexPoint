@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:UI.ViewModels"
-        Background="#666"
+        Background="#555"
         Title="FlexPoint (Demo)"
         Height="700"
         Width="1000"
@@ -14,37 +14,46 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
 
-        <Border Grid.Column="0"
-                Background="White"
-                BorderBrush="#333"
-                BorderThickness="0,0,2,0">
-            <Image Source="{Binding HoveredImageSource}"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Margin="20" />
-        </Border>
 
-        <Grid Grid.Column="1"
-              Margin="10">
+        <Grid Grid.Column="0">
+
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="3*"  />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <WrapPanel Grid.Row="0"
-                       Orientation="Horizontal"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center">
+            <Border
+                Background="White"
+                BorderBrush="#222"
+                BorderThickness="6,6,6,6">
+
+                <Image 
+                   Grid.Row ="0" 
+                   Source="{Binding HoveredImageSource}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="10" >
+                </Image>
+            </Border>
+
+            <Border 
+                 Panel.ZIndex="1"
+                 Grid.Row="1"
+                 Grid.ColumnSpan="2"
+                 Grid.RowSpan="2"
+                 Background="#80000000"
+                 Visibility="{Binding ProgressVisibility}"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch">
+            </Border>
+
+            <UniformGrid Grid.Row="1" Background="#222">
+
                 <Button Content="Abs"
                         Command="{Binding FetchExercisesCommand}"
                         CommandParameter="abs"
@@ -227,123 +236,10 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-            </WrapPanel>
 
-            <Button Grid.Row="1"
-                    Content="Add Exercise"
-                    Style="{StaticResource CommandButton}"
-                    Background="{StaticResource CommandButtonBlue}"
-                    Command="{Binding AddExerciseCommand}"
-                    HorizontalAlignment="Center"
-                    Margin="5"
-                    Padding="5"
-                    Width="150"
-                    FontSize="14" />
-
-            <TextBlock Grid.Row="2"
-                       Text="Exercises"
-                       HorizontalAlignment="Left"
-                       FontSize="16"
-                       FontWeight="Bold"
-                       Foreground="White"
-                       Margin="0,0,0,5" />
-
-            <ListBox Grid.Row="3"
-                     Style="{StaticResource ListBoxStyle}"
-                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"
-                     DisplayMemberPath="Name"
-                     ItemsSource="{Binding Exercises}"
-                     SelectedItem="{Binding SelectedExercise, Mode=TwoWay}"
-                     HorizontalAlignment="Stretch"
-                     VerticalAlignment="Stretch"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto" />
-
+            </UniformGrid>
         </Grid>
 
-        <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
-
-            <StackPanel Grid.Row="0"
-                        Margin="10">
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Center">
-                    <Button Content="Clear"
-                            Width="75"
-                            Background="{StaticResource CommandButtonRed}"
-                            Command="{Binding ClearAddedExercisesCommand}"
-                            Style="{StaticResource CommandButton}"
-                            Margin="5" />
-                    <Button Content="Remove"
-                            Background="{StaticResource CommandButtonRed}"
-                            Width="75"
-                            Command="{Binding RemoveExerciseCommand}"
-                            Style="{StaticResource CommandButton}"
-                            Margin="5" />
-                    <Button Content="Save to PDF"
-                            Background="{StaticResource CommandButtonBlue}"
-                            Command="{Binding SaveCommand}"
-                            Style="{StaticResource CommandButton}"
-                            Margin="5" />
-
-                </StackPanel>
-                <TextBlock Text="My Exercises"
-                           FontSize="16"
-                           FontWeight="Bold"
-                           Foreground="White"
-                           HorizontalAlignment="Center"
-                           Margin="10,5,0,0" />
-                <ListBox Style="{StaticResource ListBoxStyle}"
-                         ItemContainerStyle="{StaticResource ListBoxItemStyle}"
-                         ItemsSource="{Binding AddedExercises}"
-                         SelectedItem="{Binding SelectedAddedExercise, Mode=TwoWay}"
-                         DisplayMemberPath="Name"
-                         Height="150"
-                         Margin="0,10,0,0"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                         HorizontalAlignment="Stretch" />
-            </StackPanel>
-
-            <TextBlock Grid.Row="1"
-                       Text="{Binding CurrentSelectedExercise.Name}"
-                       TextWrapping="Wrap"
-                       FontSize="16"
-                       FontWeight="Bold"
-                       Foreground="White"
-                       HorizontalAlignment="Center"
-                       Margin="10,0,0,0" />
-
-            <Border Grid.Row="3"
-                    Margin="10"
-                    BorderBrush="#444"
-                    BorderThickness="1"
-                    CornerRadius="5">
-                <Border.Effect>
-                    <DropShadowEffect Color="Black"
-                                      BlurRadius="8"
-                                      ShadowDepth="2" />
-                </Border.Effect>
-                <ScrollViewer Background="#444"
-                              VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Disabled">
-                    <TextBlock Text="{Binding SelectedExerciseSteps, TargetNullValue='No steps available for this exercise.'}"
-                               Foreground="White"
-                               TextWrapping="Wrap"
-                               Padding="10"
-                               FontSize="14"
-                               FontWeight="Normal"
-                               VerticalAlignment="Top" />
-                </ScrollViewer>
-            </Border>
-
-        </Grid>
         <Border Grid.Column="1"
                 Grid.ColumnSpan="2"
                 Grid.RowSpan="2"
@@ -368,5 +264,138 @@
                              HorizontalAlignment="Center" />
             </StackPanel>
         </Border>
+
+        <Grid Grid.Column="1"
+              Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+
+            <TextBlock Grid.Row="0"
+               Text="{Binding CurrentSelectedExercise.Name}"
+               TextWrapping="Wrap"
+               FontSize="16"
+               FontWeight="Bold"
+               Foreground="White"
+               HorizontalAlignment="Center"
+               Margin="0,0,0,10" />
+
+            <Border Grid.Row="1" 
+                BorderBrush="#444"
+                BorderThickness="1"
+                Margin="0,0,0,10"
+                    CornerRadius="5">
+
+                <Border.Effect>
+                    <DropShadowEffect Color="Black"
+                            BlurRadius="8"
+                          ShadowDepth="2" />
+                </Border.Effect>
+                <ScrollViewer Background="#444"
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+                    <TextBlock Text="{Binding SelectedExerciseSteps}"
+                       Foreground="White"
+                       TextWrapping="Wrap"
+                       Padding="10"
+                       FontSize="14"
+                       FontWeight="Normal"
+                       VerticalAlignment="Top" />
+                </ScrollViewer>
+            </Border>
+
+            <TextBlock Grid.Row="2"
+                       Text="Exercises"
+                       HorizontalAlignment="Center"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Foreground="White"
+                       Margin="0,0,0,5" />
+
+            <ListBox Grid.Row="3"
+                     Style="{StaticResource ListBoxStyle}"
+                     ItemContainerStyle="{StaticResource ListBoxItemStyle}"
+                     DisplayMemberPath="Name"
+                     ItemsSource="{Binding Exercises}"
+                     SelectedItem="{Binding SelectedExercise, Mode=TwoWay}"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Stretch"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" />
+
+            <Button Grid.Row="4"
+                    Content="Add Exercise"
+                    Style="{StaticResource CommandButton}"
+                    Background="{StaticResource CommandButtonBlue}"
+                    Command="{Binding AddExerciseCommand}"
+                    HorizontalAlignment="Center"
+                    Margin="0,10,0,0" 
+                    Width="150"
+                    FontSize="14" />
+
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+
+                <RowDefinition Height="2*" />
+
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Grid.Row="1"
+                        Margin="10">
+                <TextBlock Text="My Exercises"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="10,5,0,0" />
+                <ListBox Style="{StaticResource ListBoxStyle}"
+                         ItemContainerStyle="{StaticResource ListBoxItemStyle}"
+                         ItemsSource="{Binding AddedExercises}"
+                         SelectedItem="{Binding SelectedAddedExercise, Mode=TwoWay}"
+                         DisplayMemberPath="Name"
+                         Height="190"
+                         Margin="0,10,0,0"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         HorizontalAlignment="Stretch" />
+
+                <StackPanel Orientation="Horizontal"
+                            Margin="0,30,0,0"
+                        HorizontalAlignment="Center">
+
+                    <Button Content="Clear"
+                        Width="75"
+                        Background="{StaticResource CommandButtonRed}"
+                        Command="{Binding ClearAddedExercisesCommand}"
+                        Style="{StaticResource CommandButton}"
+                        Margin="5" />
+
+                    <Button Content="Remove"
+                        Background="{StaticResource CommandButtonRed}"
+                        Width="75"
+                        Command="{Binding RemoveExerciseCommand}"
+                        Style="{StaticResource CommandButton}"
+                        Margin="5" />
+
+                    <Button Content="Save to PDF"
+                        Background="{StaticResource CommandButtonBlue}"
+                        Command="{Binding SaveCommand}"
+                        Style="{StaticResource CommandButton}"
+                        Margin="5" />
+
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+
     </Grid>
 </Window>

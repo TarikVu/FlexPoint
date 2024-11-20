@@ -11,20 +11,17 @@
     <Style x:Key="MuscleButton"
            TargetType="Button">
         <Setter Property="Width"
-                Value="100" />
+                Value="68" />
         <Setter Property="Height"
-                Value="30" />
-        <Setter Property="Margin"
-                Value="5" />
+                Value="25" />
         <Setter Property="Background"
                 Value="{StaticResource MuscleButtonColor}" />
         <Setter Property="Foreground"
                 Value="#FAF7F0" />
         <Setter Property="FontSize"
-                Value="14" />
+                Value="12" />
         <Setter Property="FontWeight"
                 Value="Bold" />
-        
         <Setter Property="Effect">
             <Setter.Value>
                 <DropShadowEffect Color="Black"
