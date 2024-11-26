@@ -14,25 +14,27 @@ namespace UI.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        private readonly FlexPointDbContext _dbcContext;
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        private string? _newUserName;
         private readonly ExerciseDbApi _exerciseDbApi;
+        private readonly FlexPointDbContext _dbcContext;
+        private readonly PdfWriter _pdfWriter;
+
+        public ObservableCollection<User> Users { get; } = [];
 
         private ObservableCollection<Exercise> _exercises;
         public ObservableCollection<Exercise> AddedExercises { get; } = [];
-        public ObservableCollection<User> Users { get; } = [];
-
-        private string? _newUserName;
 
         public Exercise? CurrentSelectedExercise => SelectedAddedExercise ?? SelectedExercise;
-
-        private readonly PdfWriter _pdfWriter;
+        private Exercise? _selectedExercise;
+        private Exercise? _selectedAddedExercise;
 
         private int _currentProgress;
         private Visibility _progressVisibility = Visibility.Collapsed;
         private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
         private string _currentMuscle = "base";
+
         public ICommand AddNewUserCommand { get; }
         public ICommand MouseHoverCommand { get; }
         public ICommand MouseLeaveCommand { get; }
@@ -41,9 +43,6 @@ namespace UI.ViewModels
         public ICommand RemoveExerciseCommand { get; }
         public ICommand ClearAddedExercisesCommand { get; }
         public ICommand SaveCommand { get; }
-
-        private Exercise? _selectedExercise;
-        private Exercise? _selectedAddedExercise;
 
         public ObservableCollection<Exercise> Exercises
         {
@@ -57,7 +56,7 @@ namespace UI.ViewModels
 
         public string NewUserName
         {
-            get => _newUserName;
+            get => _newUserName!;
             set
             {
                 _newUserName = value;
