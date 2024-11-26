@@ -14,12 +14,14 @@ namespace UI.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        private readonly FlexPointDbContext _dbcContext;
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private readonly ExerciseDbApi _exerciseDbApi;
 
         private ObservableCollection<Exercise> _exercises;
         public ObservableCollection<Exercise> AddedExercises { get; } = [];
+        public ObservableCollection<User> Users { get; } = [];
         public Exercise? CurrentSelectedExercise => SelectedAddedExercise ?? SelectedExercise;
 
         private readonly PdfWriter _pdfWriter;
@@ -28,7 +30,7 @@ namespace UI.ViewModels
         private Visibility _progressVisibility = Visibility.Collapsed;
         private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
         private string _currentMuscle = "base";
-
+        public ICommand AddNewUserCommand { get; }
         public ICommand MouseHoverCommand { get; }
         public ICommand MouseLeaveCommand { get; }
         public ICommand FetchExercisesCommand { get; }
@@ -137,9 +139,17 @@ namespace UI.ViewModels
             _exercises = [];
             _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
             _pdfWriter = new PdfWriter();
+             
+
+            _dbcContext = new FlexPointDbContext();
+            _dbcContext.Database.EnsureCreated();
+
+            AddNewUserCommand = new RelayCommand(AddNewUser);
 
             MouseHoverCommand = new RelayCommand<string>(OnMouseHover);
             MouseLeaveCommand = new RelayCommand(OnMouseLeave);
+
+            Users = new ObservableCollection<User>(_dbcContext.Users);
 
             SaveCommand = new RelayCommand(SaveToPdf, () => AddedExercises.Count > 0);
             AddExerciseCommand = new RelayCommand(AddExercise, () => SelectedExercise != null);
@@ -188,6 +198,14 @@ namespace UI.ViewModels
             {
                 ProgressVisibility = Visibility.Collapsed;
             }
+        }
+
+        public void AddNewUser()
+        {
+            User user = new() { Name = "New User" };
+            _dbcContext.Users.Add(user);
+            _dbcContext.SaveChanges();
+            Users.Add(user);
         }
 
         public void SaveToPdf()
