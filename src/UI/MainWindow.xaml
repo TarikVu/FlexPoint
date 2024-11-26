@@ -364,6 +364,7 @@
                 Margin="0,10,0,10"
                 HorizontalAlignment="Right"
                 Background="{StaticResource CommandButtonBlue}"
+                Command="{Binding AddNewUserCommand}"
                 Content="New User"
                 Style="{StaticResource CommandButton}" />
 
@@ -381,6 +382,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 DisplayMemberPath="Name"
+                ItemsSource="{Binding Users}"
                 ItemContainerStyle="{StaticResource ListBoxItemStyle}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
