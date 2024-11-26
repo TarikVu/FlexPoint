@@ -22,6 +22,9 @@ namespace UI.ViewModels
         private ObservableCollection<Exercise> _exercises;
         public ObservableCollection<Exercise> AddedExercises { get; } = [];
         public ObservableCollection<User> Users { get; } = [];
+
+        private string? _newUserName;
+
         public Exercise? CurrentSelectedExercise => SelectedAddedExercise ?? SelectedExercise;
 
         private readonly PdfWriter _pdfWriter;
@@ -48,6 +51,16 @@ namespace UI.ViewModels
             set
             {
                 _exercises = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string NewUserName
+        {
+            get => _newUserName;
+            set
+            {
+                _newUserName = value;
                 OnPropertyChanged();
             }
         }
@@ -136,10 +149,11 @@ namespace UI.ViewModels
 
         public MainViewModel(ExerciseDbApi mockTestApi)
         {
+            NewUserName = "";
             _exercises = [];
             _exerciseDbApi = mockTestApi ?? new ExerciseDbApi(new HttpClient());
             _pdfWriter = new PdfWriter();
-             
+
 
             _dbcContext = new FlexPointDbContext();
             _dbcContext.Database.EnsureCreated();
@@ -202,10 +216,18 @@ namespace UI.ViewModels
 
         public void AddNewUser()
         {
-            User user = new() { Name = "New User" };
+            if (NewUserName == "")
+            {
+                MessageBox.Show("Please enter a name for the new user.");
+                return;
+            }
+
+            User user = new() { Name = _newUserName! };
             _dbcContext.Users.Add(user);
             _dbcContext.SaveChanges();
             Users.Add(user);
+
+            NewUserName = "";
         }
 
         public void SaveToPdf()
