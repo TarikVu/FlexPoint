@@ -384,6 +384,7 @@
                 DisplayMemberPath="Name"
                 ItemContainerStyle="{StaticResource ListBoxItemStyle}"
                 ItemsSource="{Binding Users}"
+                SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                 Style="{StaticResource ListBoxStyle}" />

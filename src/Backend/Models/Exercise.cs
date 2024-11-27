@@ -36,6 +36,7 @@ namespace Backend.Models
 
     public class Exercise
     {
+        public ICollection<UserExercise> UserExercises { get; set; } = new List<UserExercise>();
         [JsonPropertyName("exerciseId")]
         public required string ExerciseId { get; set; }  
 

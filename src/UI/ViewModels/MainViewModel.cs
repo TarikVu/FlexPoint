@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using Backend;
 using Backend.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using UI.Services;
 
@@ -16,11 +17,14 @@ namespace UI.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
+
         private string? _newUserName;
         private readonly ExerciseDbApi _exerciseDbApi;
-        private readonly FlexPointDbContext _dbcContext;
+        private readonly FlexPointDbContext _dbContext;
         private readonly PdfWriter _pdfWriter;
 
+
+        private User? _selectedUser;
         public ObservableCollection<User> Users { get; } = [];
 
         private ObservableCollection<Exercise> _exercises;
@@ -43,6 +47,30 @@ namespace UI.ViewModels
         public ICommand RemoveExerciseCommand { get; }
         public ICommand ClearAddedExercisesCommand { get; }
         public ICommand SaveCommand { get; }
+
+        public User SelectedUser
+        {
+            get => _selectedUser!;
+            set
+            {
+                _selectedUser = value;
+                OnPropertyChanged();
+                AddedExercises.Clear();
+
+                var user = _dbContext.Users
+                    .Include(u => u.UserExercises)
+                    .ThenInclude(ue => ue.Exercise)
+                    .FirstOrDefault(u => u.UserId == _selectedUser.UserId);
+
+                var exercises = user!.UserExercises.Select(ue => ue.Exercise).ToList();
+
+                foreach (Exercise e in exercises)
+                {
+                    AddedExercises.Add(e);
+                }
+
+            }
+        }
 
         public ObservableCollection<Exercise> Exercises
         {
@@ -154,15 +182,15 @@ namespace UI.ViewModels
             _pdfWriter = new PdfWriter();
 
 
-            _dbcContext = new FlexPointDbContext();
-            _dbcContext.Database.EnsureCreated();
+            _dbContext = new FlexPointDbContext();
+            _dbContext.Database.EnsureCreated();
 
             AddNewUserCommand = new RelayCommand(AddNewUser);
 
             MouseHoverCommand = new RelayCommand<string>(OnMouseHover);
             MouseLeaveCommand = new RelayCommand(OnMouseLeave);
 
-            Users = new ObservableCollection<User>(_dbcContext.Users);
+            Users = new ObservableCollection<User>(_dbContext.Users);
 
             SaveCommand = new RelayCommand(SaveToPdf, () => AddedExercises.Count > 0);
             AddExerciseCommand = new RelayCommand(AddExercise, () => SelectedExercise != null);
@@ -222,8 +250,8 @@ namespace UI.ViewModels
             }
 
             User user = new() { Name = _newUserName! };
-            _dbcContext.Users.Add(user);
-            _dbcContext.SaveChanges();
+            _dbContext.Users.Add(user);
+            _dbContext.SaveChanges();
             Users.Add(user);
 
             NewUserName = "";
@@ -266,6 +294,20 @@ namespace UI.ViewModels
                 return;
 
             AddedExercises.Add(SelectedExercise);
+
+            if (_selectedUser != null)
+            {
+                var user = _dbContext.Users.Find(_selectedUser.UserId);
+                user!.UserExercises.Add(new UserExercise
+                {
+                    UserId = _selectedUser.UserId,
+                    User = _selectedUser,
+                    ExerciseId = SelectedExercise.ExerciseId,
+                    Exercise = SelectedExercise
+                });
+            }
+
+            Console.WriteLine("added exercise");
         }
 
         private void RemoveExercise()
