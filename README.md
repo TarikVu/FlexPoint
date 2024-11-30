@@ -166,3 +166,11 @@ of using moq for a simulated api testing as well as a way to streamline setting 
 11/20
 - Redesigned UI for DB Integration
 - Beautified XAML wtih Extensions
+
+11/26
+- Configured Sqlite Local Database for development
+- Fixed Issue finding the correct path for the database
+- Deleteed old .db file that was found in production bin
+
+11/30
+- Added CRUD Operations for User Workouts
