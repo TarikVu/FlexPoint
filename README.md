@@ -10,14 +10,15 @@ Flexpiont integrates with external APIs to fetch relevant workout recommendation
 - **ExerciseDB API workouts**: Query the API via Specified muscle groups in order to find relevant workouts
 - **Workout Planning**: Users can select from the workouts provided to construct a regimen
 - **PDF Writer**: Users are able to create a pdf file of their selected workouts.
+- Sqlite Database : Utilizes a liteweight local Sqlite Db in order to create simple user profiles.
+  
 <p align="center"> <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/flexpoint_example.png?raw=true" width="75%"> </p>
 
 ## Planned Features 
 - Interactive UI: 
 	- Clickable muscle groups for muscle group selection. Utilizing SVG images
 	- [SharpVectors](https://www.nuget.org/packages/SharpVectors)
-- Database Integration: 
-    - At this stage in development, There is no database implmented, but **MySQL or PostgreSQL** would be a good choice for a database in the future in order to create user tables and save user workouts.
+
 - Google Calendar Upload:
     - Users will be able to construct workout regimen and upload it to their google Calendars.
 
@@ -105,16 +106,16 @@ The following HttpRequestException codes are caught with our api call, upon an u
 the corresponding error.
 ```bash
 Client Errors (4xx)
-- 400 Bad Request – Invalid request.
-- 401 Unauthorized – Authentication required.
-- 403 Forbidden – Access denied.
-- 404 Not Found – Resource not found.
-- 429 Too Many Requests – Rate limit exceeded.
+- 400 Bad Request â€“ Invalid request.
+- 401 Unauthorized â€“ Authentication required.
+- 403 Forbidden â€“ Access denied.
+- 404 Not Found â€“ Resource not found.
+- 429 Too Many Requests â€“ Rate limit exceeded.
 Server Errors (5xx):
-- 500 Internal Server Error – General server-side failure.
-- 502 Bad Gateway – Server acting as a gateway/proxy received an invalid response.
-- 503 Service Unavailable – Server is temporarily unavailable.
-- 504 Gateway Timeout – Server acting as a gateway/proxy timed out.
+- 500 Internal Server Error â€“ General server-side failure.
+- 502 Bad Gateway â€“ Server acting as a gateway/proxy received an invalid response.
+- 503 Service Unavailable â€“ Server is temporarily unavailable.
+- 504 Gateway Timeout â€“ Server acting as a gateway/proxy timed out.
 ```
 
 References:
