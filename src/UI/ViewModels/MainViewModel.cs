@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Input;
 using Backend;
@@ -39,6 +40,7 @@ namespace UI.ViewModels
         private string _hoveredImageSource = "pack://application:,,,/Assets/base.png";
         private string _currentMuscle = "base";
 
+        public ICommand DeleteUserCommand { get; }
         public ICommand AddNewUserCommand { get; }
         public ICommand MouseHoverCommand { get; }
         public ICommand MouseLeaveCommand { get; }
@@ -57,18 +59,20 @@ namespace UI.ViewModels
                 OnPropertyChanged();
                 AddedExercises.Clear();
 
-                var user = _dbContext.Users
-                    .Include(u => u.UserExercises)
-                    .ThenInclude(ue => ue.Exercise)
-                    .FirstOrDefault(u => u.UserId == _selectedUser.UserId);
-
-                var exercises = user!.UserExercises.Select(ue => ue.Exercise).ToList();
-
-                foreach (Exercise e in exercises)
+                if (_selectedUser != null)
                 {
-                    AddedExercises.Add(e);
-                }
+                    var user = _dbContext.Users
+                        .Include(u => u.UserExercises)
+                        .ThenInclude(ue => ue.Exercise)
+                        .FirstOrDefault(u => u.UserId == _selectedUser.UserId);
 
+                    var exercises = user!.UserExercises.Select(ue => ue.Exercise).ToList();
+
+                    foreach (Exercise e in exercises)
+                    {
+                        AddedExercises.Add(e);
+                    }
+                }
             }
         }
 
@@ -186,6 +190,8 @@ namespace UI.ViewModels
             _dbContext.Database.EnsureCreated();
 
             AddNewUserCommand = new RelayCommand(AddNewUser);
+            DeleteUserCommand = new RelayCommand(DeleteUser);
+
 
             MouseHoverCommand = new RelayCommand<string>(OnMouseHover);
             MouseLeaveCommand = new RelayCommand(OnMouseLeave);
@@ -257,6 +263,15 @@ namespace UI.ViewModels
             NewUserName = "";
         }
 
+        public void DeleteUser()
+        {
+            if (_selectedUser != null)
+            {
+                _dbContext.Users.Remove(_selectedUser);
+                _dbContext.SaveChanges();
+                Users.Remove(_selectedUser);
+            }
+        }
         public void SaveToPdf()
         {
             SaveFileDialog saveFileDialog = new()
@@ -293,31 +308,45 @@ namespace UI.ViewModels
             if (SelectedExercise == null || AddedExercises.Any(ex => ex.ExerciseId == SelectedExercise.ExerciseId))
                 return;
 
-            AddedExercises.Add(SelectedExercise);
-
             if (_selectedUser != null)
             {
                 var user = _dbContext.Users.Find(_selectedUser.UserId);
-                user!.UserExercises.Add(new UserExercise
+                user!.UserExercises.Add(new UserExercises
                 {
                     UserId = _selectedUser.UserId,
                     User = _selectedUser,
                     ExerciseId = SelectedExercise.ExerciseId,
                     Exercise = SelectedExercise
                 });
+                AddedExercises.Add(SelectedExercise);
+                _dbContext.SaveChanges();
             }
-
-            Console.WriteLine("added exercise");
+            else
+            {
+                MessageBox.Show("Please select a user to add the exercise to.");
+            }
         }
 
         private void RemoveExercise()
         {
-            if (SelectedAddedExercise != null)
+
+            var userExercise = _dbContext.UserExercises
+                .FirstOrDefault(
+                ue => ue.UserId == _selectedUser!.UserId &&
+                ue.ExerciseId == _selectedAddedExercise!.ExerciseId
+                );
+
+            if (userExercise != null)
             {
-                AddedExercises.Remove(SelectedAddedExercise);
-                SelectedAddedExercise = null;
+                _dbContext.UserExercises.Remove(userExercise);
+                _dbContext.SaveChanges();
             }
+
+            AddedExercises.Remove(_selectedAddedExercise!);
+            SelectedAddedExercise = null;
+
         }
+
         private void ClearAddedExercises()
         {
             AddedExercises.Clear();

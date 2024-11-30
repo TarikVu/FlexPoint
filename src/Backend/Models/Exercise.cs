@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Backend.Models
 {
-    // Used for Deserializing the Response from ExerciseDb's Api
+ 
     public class ApiResponse
     {
         [JsonPropertyName("success")]
@@ -36,7 +36,7 @@ namespace Backend.Models
 
     public class Exercise
     {
-        public ICollection<UserExercise> UserExercises { get; set; } = new List<UserExercise>();
+        public ICollection<UserExercises> UserExercises { get; set; } = new List<UserExercises>();
         [JsonPropertyName("exerciseId")]
         public required string ExerciseId { get; set; }  
 
