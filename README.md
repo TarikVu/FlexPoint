@@ -12,7 +12,7 @@ Flexpiont integrates with external APIs to fetch relevant workout recommendation
 - **PDF Writer**: Users are able to create a pdf file of their selected workouts.
 - Sqlite Database : Utilizes a liteweight local Sqlite Db in order to create simple user profiles.
   
-<p align="center"> <img src="https://github.com/TarikVu/imgs/blob/main/FlexPoint/flexpoint_example.png?raw=true" width="75%"> </p>
+<p align="center"> <img src= "https://github.com/TarikVu/imgs/blob/main/FlexPoint/FlexPoint_Arch.png?" raw=true width="75%"> </p>
 
 ## Planned Features 
 - Interactive UI: 
